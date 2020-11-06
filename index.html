@@ -157,6 +157,141 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blob/2020/11/06/js%E8%A3%85%E9%A5%B0%E5%99%A8-decorators/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blob/images/avatar.jpg">
+      <meta itemprop="name" content="Mr Lee">
+      <meta itemprop="description" content="永不言弃">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr Lee">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blob/2020/11/06/js%E8%A3%85%E9%A5%B0%E5%99%A8-decorators/" class="post-title-link" itemprop="url">js装饰器-decorators</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-06 14:45:25 / 修改时间：15:18:20" itemprop="dateCreated datePublished" datetime="2020-11-06T14:45:25+08:00">2020-11-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>装饰器支持性</p>
+<h3 id="类装饰器"><a href="#类装饰器" class="headerlink" title="类装饰器"></a>类装饰器</h3><p>对类进行操作，target参数是类本身</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> itemFy = <span class="function">(<span class="params">target</span>) =&gt;</span> &#123;</span><br><span class="line">  target.prototype.click = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;click&quot;</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">@itemFy</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&lt;div&gt;&lt;/div&gt;&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> comp = <span class="keyword">new</span> MyComponent();</span><br><span class="line"></span><br><span class="line">comp.click(); <span class="comment">// log: click</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="属性装饰器"><a href="#属性装饰器" class="headerlink" title="属性装饰器"></a>属性装饰器</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> itemPropFy = <span class="function">(<span class="params">targetPrototype, propName</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> originRender = targetPrototype.render;</span><br><span class="line">  targetPrototype.render = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`&lt;div class=&quot;outer&quot;&gt;<span class="subst">$&#123;originRender.call(<span class="built_in">this</span>)&#125;</span>&lt;/div&gt;`</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">// 注意返回值</span></span><br><span class="line">  <span class="keyword">return</span> targetPrototype;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> </span>&#123;</span><br><span class="line">  @itemPropFy</span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&lt;div&gt;内容&lt;/div&gt;&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> comp = <span class="keyword">new</span> MyComponent();</span><br><span class="line"><span class="built_in">console</span>.log(comp.render()); <span class="comment">// &lt;div class=&quot;outer&quot;&gt;&lt;div&gt;内容&lt;/div&gt;&lt;/div&gt;</span></span><br></pre></td></tr></table></figure>
+<p>带参装饰器</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> updateText = <span class="function">(<span class="params">content</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">targetPrototype, propName</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (targetPrototype[propName] = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> content;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> </span>&#123;</span><br><span class="line">  @updateText(<span class="string">&quot;我是render&quot;</span>)</span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @updateText(<span class="string">&quot;我是renderTwo&quot;</span>)</span><br><span class="line">  <span class="function"><span class="title">renderTwo</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> comp = <span class="keyword">new</span> MyComponent();</span><br><span class="line"><span class="built_in">console</span>.log(comp.render());</span><br><span class="line"><span class="built_in">console</span>.log(comp.renderTwo());</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blob/2020/11/06/babel%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blob/images/avatar.jpg">
+      <meta itemprop="name" content="Mr Lee">
+      <meta itemprop="description" content="永不言弃">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr Lee">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blob/2020/11/06/babel%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">babel相关问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-06 14:36:47 / 修改时间：14:43:59" itemprop="dateCreated datePublished" datetime="2020-11-06T14:36:47+08:00">2020-11-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="编译时遇到一些问题"><a href="#编译时遇到一些问题" class="headerlink" title="编译时遇到一些问题"></a>编译时遇到一些问题</h3><p>使用以下命令 编译装饰器测试 demo，遇到问题</p>
+<p>命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx babel .\decorators.js --out-dir ./dist/decorators</span><br></pre></td></tr></table></figure>
+
+<p>问题</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Support <span class="keyword">for</span> the experimental syntax <span class="string">&#x27;decorators-legacy&#x27;</span> isn<span class="string">&#x27;t currently enabled</span></span><br></pre></td></tr></table></figure>
+
+<p>解决方法</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;presets&quot;</span>: [<span class="string">&quot;@babel/preset-env&quot;</span>],</span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span>: [</span><br><span class="line">    ++ [<span class="string">&quot;@babel/plugin-proposal-decorators&quot;</span>, &#123; <span class="attr">&quot;legacy&quot;</span>: <span class="literal">true</span> &#125;],</span><br><span class="line">    ++ [<span class="string">&quot;@babel/plugin-proposal-class-properties&quot;</span>, &#123; <span class="attr">&quot;loose&quot;</span> : <span class="literal">true</span> &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果想支持装饰器还需要创建 jsconfig.json 或 tsconfig.json 配置文件，并添加一下配置</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;experimentalDecorators&quot;</span>: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blob/2020/11/03/CSS%E5%8F%82%E8%80%83/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -182,7 +317,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-03 15:27:22 / 修改时间：15:28:36" itemprop="dateCreated datePublished" datetime="2020-11-03T15:27:22+08:00">2020-11-03</time>
+              <time title="创建时间：2020-11-03 15:27:22 / 修改时间：15:30:58" itemprop="dateCreated datePublished" datetime="2020-11-03T15:27:22+08:00">2020-11-03</time>
             </span>
 
           
@@ -197,6 +332,7 @@
 
       
           <h3 id="CSS-var-函数"><a href="#CSS-var-函数" class="headerlink" title="CSS var() 函数"></a>CSS var() 函数</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 定义一个名为 &quot;--main-bg-color&quot; 的属性，然后使用 var() 函数调用该属性： */</span></span><br><span class="line"><span class="selector-pseudo">:root</span> &#123;</span><br><span class="line">  <span class="attribute">--main-bg-color</span>: coral;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#div1</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">var</span>(--main-bg-color);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#div2</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">var</span>(--main-bg-color);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="CSS-linear-gradient-函数"><a href="#CSS-linear-gradient-函数" class="headerlink" title="CSS linear-gradient() 函数"></a>CSS linear-gradient() 函数</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 从头部开始的线性渐变，从红色开始，转为黄色，再到蓝色： */</span></span><br><span class="line"><span class="selector-id">#grad</span> &#123;</span><br><span class="line">  <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(red, yellow, blue);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 从上到下，蓝色渐变到红色 */</span></span><br><span class="line"><span class="selector-tag">linear-gradient</span>(45<span class="selector-tag">deg</span>, <span class="selector-tag">blue</span>, <span class="selector-tag">red</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">/* 渐变轴为45度，从蓝色渐变到红色 */</span></span><br><span class="line"><span class="selector-tag">linear-gradient</span>(45<span class="selector-tag">deg</span>, <span class="selector-tag">blue</span>, <span class="selector-tag">red</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">/* 从右下到左上、从蓝色渐变到红色 */</span></span><br><span class="line"><span class="selector-tag">linear-gradient</span>(<span class="selector-tag">to</span> <span class="selector-tag">left</span> <span class="selector-tag">top</span>, <span class="selector-tag">blue</span>, <span class="selector-tag">red</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">/* 从下到上，从蓝色开始渐变、到高度40%位置是绿色渐变开始、最后以红色结束 */</span></span><br><span class="line"><span class="selector-tag">linear-gradient</span>(0<span class="selector-tag">deg</span>, <span class="selector-tag">blue</span>, <span class="selector-tag">green</span> 40%, <span class="selector-tag">red</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -809,7 +945,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/blob/archives">
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -822,7 +958,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/blob/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
