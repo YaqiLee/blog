@@ -20,20 +20,19 @@
     var CONFIG = {"hostname":"yaqilee.github.io","root":"/blog/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="redux基本实现原理123456789101112131415161718192021function createStore(reducer) &amp;#123;  let state;  function getState() &amp;#123;    return state;  &amp;#125;  function dispatch(action) &amp;#123;    state &#x3D; reducer(s">
+  <meta name="description" content="IntersectionObserver API 提供了一种异步观察目标元素与其祖先元素或顶级文档视窗(viewport)交叉状态的方法 （from： MDN） 示例通过目标元素是否在可视区，来实现无限滚动 123456789var intersectionObserver &#x3D; new IntersectionObserver(function (entries) &amp;#123;  &#x2F;&#x2F; inter">
 <meta property="og:type" content="article">
-<meta property="og:title" content="react">
-<meta property="og:url" content="https://yaqilee.github.io/blog/2020/11/16/react/index.html">
+<meta property="og:title" content="Intersection Observer API">
+<meta property="og:url" content="https://yaqilee.github.io/blog/2020/11/17/Intersection%20Observer%20API/index.html">
 <meta property="og:site_name" content="Mr Lee">
-<meta property="og:description" content="redux基本实现原理123456789101112131415161718192021function createStore(reducer) &amp;#123;  let state;  function getState() &amp;#123;    return state;  &amp;#125;  function dispatch(action) &amp;#123;    state &#x3D; reducer(s">
+<meta property="og:description" content="IntersectionObserver API 提供了一种异步观察目标元素与其祖先元素或顶级文档视窗(viewport)交叉状态的方法 （from： MDN） 示例通过目标元素是否在可视区，来实现无限滚动 123456789var intersectionObserver &#x3D; new IntersectionObserver(function (entries) &amp;#123;  &#x2F;&#x2F; inter">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-11-16T06:19:19.000Z">
-<meta property="article:modified_time" content="2020-11-16T06:24:18.922Z">
+<meta property="article:published_time" content="2020-11-17T02:03:05.000Z">
+<meta property="article:modified_time" content="2020-11-17T03:01:36.727Z">
 <meta property="article:author" content="Mr Lee">
-<meta property="article:tag" content="react">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://yaqilee.github.io/blog/2020/11/16/react/">
+<link rel="canonical" href="https://yaqilee.github.io/blog/2020/11/17/Intersection%20Observer%20API/">
 
 
 <script id="page-configurations">
@@ -46,7 +45,7 @@
   };
 </script>
 
-  <title>react | Mr Lee</title>
+  <title>Intersection Observer API | Mr Lee</title>
   
 
 
@@ -161,7 +160,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/11/16/react/">
+    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/11/17/Intersection%20Observer%20API/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/blog/images/avatar.jpg">
@@ -174,7 +173,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          react
+          Intersection Observer API
         </h1>
 
         <div class="post-meta">
@@ -185,7 +184,16 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-16 14:19:19 / 修改时间：14:24:18" itemprop="dateCreated datePublished" datetime="2020-11-16T14:19:19+08:00">2020-11-16</time>
+              <time title="创建时间：2020-11-17 10:03:05 / 修改时间：11:01:36" itemprop="dateCreated datePublished" datetime="2020-11-17T10:03:05+08:00">2020-11-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/web-api/" itemprop="url" rel="index"><span itemprop="name">web api</span></a>
+                </span>
             </span>
 
           
@@ -199,7 +207,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="redux基本实现原理"><a href="#redux基本实现原理" class="headerlink" title="redux基本实现原理"></a>redux基本实现原理</h3><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createStore</span>(<span class="params">reducer</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> state;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getState</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">dispatch</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">    state = reducer(state, action);</span><br><span class="line">    <span class="keyword">return</span> action;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  dispatch(&#123; <span class="attr">type</span>: <span class="string">&quot;init&quot;</span> &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    getState,</span><br><span class="line">    dispatch</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> createStore;</span><br></pre></td></tr></table></figure>
+        <p>IntersectionObserver API 提供了一种异步观察目标元素与其祖先元素或顶级文档视窗(viewport)交叉状态的方法 （from： MDN）</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>通过目标元素是否在可视区，来实现无限滚动</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> intersectionObserver = <span class="keyword">new</span> IntersectionObserver(<span class="function"><span class="keyword">function</span> (<span class="params">entries</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// intersectionRatio &lt;= 0， 目标元素不在可视区，也就是看不见</span></span><br><span class="line">  <span class="keyword">if</span> (entries[<span class="number">0</span>].intersectionRatio &lt;= <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">  <span class="comment">//</span></span><br><span class="line">  loadItems(<span class="number">10</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;Loaded new items&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 开始观察元素</span></span><br><span class="line">intersectionObserver.observe(<span class="built_in">document</span>.querySelector(<span class="string">&quot;.scrollerFooter&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> intersectionObserver = <span class="keyword">new</span> IntersectionObserver(callback, &#123;</span><br><span class="line">  threshold: [<span class="number">0.5</span>, <span class="number">1</span>], <span class="comment">// 指定阈值时触发</span></span><br><span class="line">  root: <span class="built_in">document</span>.querySelector(<span class="string">&quot;.scrollerFooter&quot;</span>), <span class="comment">// 指定root</span></span><br><span class="line">  rootMargin: <span class="string">&quot;&quot;</span>, <span class="comment">// 可控制交叉区域的大小</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>通过观察器的返回值，使用 API 提供的方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 观察目标</span></span><br><span class="line">intersectionObserver.observe(<span class="built_in">document</span>.querySelector(<span class="string">&quot;.scrollerFooter&quot;</span>));</span><br><span class="line"><span class="comment">// 取消观察，特定目标</span></span><br><span class="line">intersectionObserver.unobserve(<span class="built_in">document</span>.querySelector(<span class="string">&quot;.scrollerFooter&quot;</span>));</span><br><span class="line"><span class="comment">// 返回以观察目标</span></span><br><span class="line">intersectionObserver.takeRecords();</span><br><span class="line"><span class="comment">// 停止观察，不需要参数</span></span><br><span class="line">intersectionObserver.disconnect();</span><br></pre></td></tr></table></figure>
+
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">boundingClientRect 目标矩形区域信息</span><br><span class="line">intersectionRatio 目标元素可见比例，intersectionRatio &#x3D;&#x3D; 1 完全可见， intersectionRatio &lt;&#x3D; 0 不在可视范围内</span><br><span class="line">intersectionRect 与跟区域相交部分的信息 &#x2F;&#x2F; TODO</span><br><span class="line">rootBounds 跟元素的矩形区域信息</span><br></pre></td></tr></table></figure>
+
     </div>
 
     
@@ -207,9 +225,6 @@
     
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/blog/tags/react/" rel="tag"># react</a>
-          </div>
 
         
 
@@ -217,13 +232,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/2020/11/16/%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/" rel="prev" title="高阶函数">
-      <i class="fa fa-chevron-left"></i> 高阶函数
+    <a href="/blog/2020/11/16/npm%E5%8F%91%E5%B8%83%E5%BC%80%E6%BA%90%E5%BA%93/" rel="prev" title="npm发布开源库">
+      <i class="fa fa-chevron-left"></i> npm发布开源库
     </a></div>
-      <div class="post-nav-item">
-    <a href="/blog/2020/11/16/npm%E5%8F%91%E5%B8%83%E5%BC%80%E6%BA%90%E5%BA%93/" rel="next" title="npm发布开源库">
-      npm发布开源库 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -283,7 +295,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#redux%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">redux基本实现原理</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text">属性</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -415,7 +427,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'comments',
       owner       : 'YaqiLee',
       admin       : ['YaqiLee'],
-      id          : '5b3307e6832b3a673b63302badf16555',
+      id          : 'fef212fb927834569cf58090ee35435b',
         language: 'zh-CN',
       distractionFreeMode: true
     });
