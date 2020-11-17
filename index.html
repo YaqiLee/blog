@@ -157,6 +157,74 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/11/17/webpack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.jpg">
+      <meta itemprop="name" content="Mr Lee">
+      <meta itemprop="description" content="永不言弃">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr Lee">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2020/11/17/webpack/" class="post-title-link" itemprop="url">webpack</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-17 11:39:09 / 修改时间：11:49:38" itemprop="dateCreated datePublished" datetime="2020-11-17T11:39:09+08:00">2020-11-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/webpack/" itemprop="url" rel="index"><span itemprop="name">webpack</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="webpack-config-js"><a href="#webpack-config-js" class="headerlink" title="webpack.config.js"></a>webpack.config.js</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// 优化属性</span></span><br><span class="line">  optimization: &#123;</span><br><span class="line">    <span class="comment">// 告知 webpack 使用 TerserPlugin 或其它在 optimization.minimizer 定义的插件压缩 bundle。</span></span><br><span class="line">    minimize: <span class="literal">true</span>,</span><br><span class="line">    <span class="comment">// 通过此属性自定义压缩bundle插件</span></span><br><span class="line">    minimizer: [</span><br><span class="line">      <span class="keyword">new</span> TerserPlugin(&#123;</span><br><span class="line">        cache: <span class="literal">true</span>,</span><br><span class="line">        parallel: <span class="literal">true</span>,</span><br><span class="line">        sourceMap: <span class="literal">true</span>, <span class="comment">// 如果在生产环境中使用 source-maps，必须设置为 true</span></span><br><span class="line">        terserOptions: &#123;</span><br><span class="line">          <span class="comment">// https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions</span></span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;),</span><br><span class="line">    ],</span><br><span class="line">    <span class="comment">// v4版本开始，使用此属性代替CommonsChunkPlugin</span></span><br><span class="line">    splitChunks: &#123;</span><br><span class="line">      chunks: <span class="string">&quot;async&quot;</span>, <span class="comment">// all | async | initial | () =&gt; boolean // 排除模块</span></span><br><span class="line">      minSize: <span class="number">20000</span>,</span><br><span class="line">      minRemainingSize: <span class="number">0</span>,</span><br><span class="line">      maxSize: <span class="number">0</span>,</span><br><span class="line">      minChunks: <span class="number">1</span>,</span><br><span class="line">      maxAsyncRequests: <span class="number">30</span>,</span><br><span class="line">      maxInitialRequests: <span class="number">30</span>,</span><br><span class="line">      automaticNameDelimiter: <span class="string">&quot;~&quot;</span>,</span><br><span class="line">      enforceSizeThreshold: <span class="number">50000</span>,</span><br><span class="line">      cacheGroups: &#123;</span><br><span class="line">        defaultVendors: &#123;</span><br><span class="line">          test: <span class="regexp">/[\\/]node_modules[\\/]/</span>,</span><br><span class="line">          priority: -<span class="number">10</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="keyword">default</span>: &#123;</span><br><span class="line">          minChunks: <span class="number">2</span>,</span><br><span class="line">          priority: -<span class="number">20</span>,</span><br><span class="line">          reuseExistingChunk: <span class="literal">true</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/11/17/Intersection%20Observer%20API/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -494,10 +562,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-11-13 10:20:57 / 修改时间：11:44:59" itemprop="dateCreated datePublished" datetime="2020-11-13T10:20:57+08:00">2020-11-13</time>
+              <time title="创建时间：2020-11-13 10:20:57" itemprop="dateCreated datePublished" datetime="2020-11-13T10:20:57+08:00">2020-11-13</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-17 11:36:01" itemprop="dateModified" datetime="2020-11-17T11:36:01+08:00">2020-11-17</time>
+              </span>
 
           
 
@@ -525,7 +599,7 @@
 <h3 id="文件回退"><a href="#文件回退" class="headerlink" title="文件回退"></a>文件回退</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 提交文件到暂存区</span></span><br><span class="line">git add file2.js</span><br><span class="line"><span class="comment"># 取消暂存。</span></span><br><span class="line">git restore --staged .\test2.js</span><br><span class="line"><span class="comment"># 恢复文件。撤销修改</span></span><br><span class="line">git restore .\test2.js</span><br><span class="line"><span class="comment"># 从本地仓库恢复文件test2.js</span></span><br><span class="line">git checkout .\test2.js</span><br></pre></td></tr></table></figure>
 <p>多次提交回退</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 模拟多次提交</span></span><br><span class="line">&gt; git commit -m <span class="string">&quot;第1次提交&quot;</span></span><br><span class="line">&gt; git commit -m <span class="string">&quot;第2次提交&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 查看log</span></span><br><span class="line">&gt; git <span class="built_in">log</span> --oneline .\test2.js</span><br><span class="line"></span><br><span class="line">5e97611 (HEAD -&gt; master) 第二次提交</span><br><span class="line">4f68102 <span class="built_in">test</span></span><br><span class="line">0263eaf 提交</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 恢复</span></span><br><span class="line">git reset --hard 0263eaf</span><br></pre></td></tr></table></figure>
-
+<h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加标签</span></span><br><span class="line">git tag -a <span class="string">&quot;v1.0&quot;</span> -m <span class="string">&quot;标签信息&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看标签</span></span><br><span class="line">git tag</span><br><span class="line">git show v1.o</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除标签</span></span><br><span class="line">git tag v1.0 -d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 给某一次提交添加标签</span></span><br><span class="line">git <span class="built_in">log</span> --oneline</span><br><span class="line">git tag -a <span class="string">&quot;v1.0.2&quot;</span> [提交ID] -m <span class="string">&quot;标签信息&quot;</span></span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -858,70 +932,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/11/06/es6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/blog/images/avatar.jpg">
-      <meta itemprop="name" content="Mr Lee">
-      <meta itemprop="description" content="永不言弃">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Mr Lee">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/blog/2020/11/06/es6/" class="post-title-link" itemprop="url">es6</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-11-06 17:46:15 / 修改时间：17:54:11" itemprop="dateCreated datePublished" datetime="2020-11-06T17:46:15+08:00">2020-11-06</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>工具库尽量命名方式导出，不要使用对象导出。对象在编译的时候不能被优化掉</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// utils.js right</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> request = <span class="function">(<span class="params">params</span>) =&gt;</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> debounce = <span class="function">(<span class="params">time</span>) =&gt;</span> &#123;&#125;;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// utils.js wrong</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> utils = &#123;</span><br><span class="line"></span><br><span class="line">  request:<span class="function">(<span class="params">params</span>) =&gt;</span> &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  debounce:<span class="function">(<span class="params">time</span>) =&gt;</span> &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -992,14 +1002,14 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/blog/archives">
-          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/blog/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
