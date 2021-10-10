@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type='text/javascript' src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      margin: 0;
+      align-items: center;
+      justify-content: center;
+      padding: 0 50px;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    video {
+      max-width: calc(50% - 100px);
+      margin: 0 50px;
+      box-sizing: border-box;
+      border-radius: 2px;
+      padding: 0;
+      box-shadow: rgba(156, 172, 172, 0.2) 0px 2px 2px, rgba(156, 172, 172, 0.2) 0px 4px 4px, rgba(156, 172, 172, 0.2) 0px 8px 8px, rgba(156, 172, 172, 0.2) 0px 16px 16px, rgba(156, 172, 172, 0.2) 0px 32px 32px, rgba(156, 172, 172, 0.2) 0px 64px 64px;
+    }
+    .copy {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="copy">Send your URL to a friend to start a video call</div>
+  <video id="localVideo" autoplay muted></video>
+  <video id="remoteVideo" autoplay></video>
+  <script crossorigin="anonymous" integrity="sha512-2hIBfT6wur46uR5ayhmyICuA8s15BvJhagB+jZImgktQAy832P7EuY8njl1HGp4YS0Sk8DXRo9dByhvD3jfDxA==" src="https://lib.baomitu.com/socket.io/4.2.0/socket.io.min.js"></script>
+  <script>
+    class MyRtc {
+
+      listeners = {
+        open: () => void 0,
+      };
+
+      constructor(groupid, options = {}) {
+        if (!groupid) {
+          throw new Error('No Group ID is defined');
+        }
+        this.clientId = Math.floor(Math.random() * 10000);
+        this.client = {
+          id: this.clientId
+        };
+        this.groupid = groupid;
+        this.createGroup(groupid);
+      }
+
+      async createGroup(groupid) {
+        try {
+          await fetch(`http://101.200.167.196:3000/channel/${groupid}`, {
+            body: JSON.stringify({
+              groupid,
+            }),
+            method: 'post',
+          });
+
+          this.group$ = io(`http://101.200.167.196:3000/${groupid}`);
+
+          this.group$.on('connect', (error) => {
+            this.listeners['open']();
+          });
+
+          this.group$.on('connect_error', (err) => {
+            this.listeners['open'](err);
+          });
+
+          this.group$.on('members', (members) => {
+            console.log(members);
+            this.room.listeners['members'](members);
+          });
+
+          this.group$.on('join_room', (message) => {
+            console.log(message);
+            this.room.listeners['open']();
+          });
+
+          this.group$.on('data', (members, client) => {
+            this.room.listeners['data'](members, client);
+          });
+        } catch (error) {
+          this.listeners['open'](error);
+        }
+      }
+      
+      on(name, fn) {
+        this.listeners[name] = fn;
+      }
+
+      publish(message) {
+        let { roomName } = this.room;
+        if(roomName) {
+          this.group$.emit('data', { ...message, client: this.client });
+        }
+      }
+
+      subscribe(roomName) {
+        const message = {
+          roomName,
+        };
+        this.room = new Room(roomName);
+        this.group$.emit('join_room', JSON.stringify(message));
+        return this.room;
+      }
+    }
+
+    class Room {
+
+      listeners = {
+        data: () => void 0,
+        open: () => void 0,
+        members: () => void 0,
+      }
+
+      constructor(roomName) {
+        this.roomName = roomName;
+      }
+      
+      on(name, fn) {
+        if(typeof fn == 'function') {
+          this.listeners[name] = fn;
+        }
+      }
+
+    }
+  </script>
+  <script src="./script.js"></script>
+</body>
+</html>

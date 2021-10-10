@@ -185,6 +185,734 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/11/11/js%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.jpg">
+      <meta itemprop="name" content="Mr Lee">
+      <meta itemprop="description" content="永不言弃">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr Lee">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2020/11/11/js%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">js设计模式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-11 15:02:56 / 修改时间：16:42:22" itemprop="dateCreated datePublished" datetime="2020-11-11T15:02:56+08:00">2020-11-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><blockquote>
+<p>实例和方法糅合在一起，不符合单一职责</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Singleton = <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.name = name;</span><br><span class="line">  <span class="built_in">this</span>.instance = <span class="literal">null</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Singleton.prototype.getName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Singleton.getInstance = <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">this</span>.instance) &#123;</span><br><span class="line">    <span class="built_in">this</span>.instance = <span class="keyword">new</span> Singleton(name);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">this</span>.instance;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> instance1 = Singleton.getInstance(<span class="string">&quot;a&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> instance2 = Singleton.getInstance(<span class="string">&quot;b&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(instance1 === instance2); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>代理单例模式</p>
+<blockquote>
+<p>符合单一职责</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ProxySingleton = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> instance = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!instance) &#123;</span><br><span class="line">      instance = <span class="keyword">new</span> Singleton(name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> instance;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Singleton = <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.name = name;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Singleton.prototype.getName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>.name);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = ProxySingleton(<span class="string">&quot;a&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> b = ProxySingleton(<span class="string">&quot;b&quot;</span>);</span><br><span class="line"></span><br><span class="line">a.getName(); <span class="comment">// a</span></span><br><span class="line">b.getName(); <span class="comment">// a</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a === b);</span><br></pre></td></tr></table></figure>
+
+<h3 id="发布订阅模式"><a href="#发布订阅模式" class="headerlink" title="发布订阅模式"></a>发布订阅模式</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observable</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">subscriber</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>._subscriber = subscriber;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">subscribe</span>(<span class="params">observer</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Subscription(observer, <span class="built_in">this</span>._subscriber);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Subscription</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">observer, subscriber</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>._subscriber = subscriber;</span><br><span class="line">    <span class="keyword">let</span> so = <span class="keyword">new</span> SubscriptionObserver(observer);</span><br><span class="line">    subscriber.call(<span class="literal">null</span>, so);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubscriptionObserver</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">observer</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>._observer = observer;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">next</span>(<span class="params">value</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>._observer.call(<span class="literal">null</span>, value);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> observable = <span class="keyword">new</span> Observable(<span class="function"><span class="keyword">function</span> (<span class="params">subscriber</span>) </span>&#123;</span><br><span class="line">  subscriber.next(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">  subscriber.next(<span class="string">&quot;b&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  observable.subscribe(<span class="function"><span class="keyword">function</span> (<span class="params">params</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;subscribe:&quot;</span>, params);</span><br><span class="line">  &#125;);</span><br><span class="line">  observable.subscribe(<span class="function"><span class="keyword">function</span> (<span class="params">params</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;subscribe2:&quot;</span>, params);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;, <span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/11/11/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.jpg">
+      <meta itemprop="name" content="Mr Lee">
+      <meta itemprop="description" content="永不言弃">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr Lee">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2020/11/11/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="post-title-link" itemprop="url">动态规划</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-11 09:29:30" itemprop="dateCreated datePublished" datetime="2020-11-11T09:29:30+08:00">2020-11-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-12-09 16:39:05" itemprop="dateModified" datetime="2020-12-09T16:39:05+08:00">2020-12-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="区间调度"><a href="#区间调度" class="headerlink" title="区间调度"></a>区间调度</h3><p>[贪心算法][1,2],[3,4],[6,10],[4,6]]，求最多有几个不相交的区间</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">intervalSchedule</span>(<span class="params">intvs</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (intvs.length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 根据右区间排序，[ [ 1, 4 ], [ 5, 7 ], [ 8, 10 ] ]</span></span><br><span class="line">  <span class="keyword">const</span> sortArray = intvs.sort(<span class="function">(<span class="params">a, b</span>) =&gt;</span> a[<span class="number">1</span>] - b[<span class="number">1</span>]);</span><br><span class="line">  <span class="keyword">let</span> xEnd = sortArray[<span class="number">0</span>][<span class="number">1</span>];</span><br><span class="line">  <span class="keyword">let</span> count = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (item <span class="keyword">of</span> intvs) &#123;</span><br><span class="line">    <span class="keyword">const</span> start = item[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">if</span> (start &gt;= xEnd) &#123;</span><br><span class="line">      count++;</span><br><span class="line">      xEnd = item[<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">intervalSchedule([</span><br><span class="line">  [<span class="number">1</span>, <span class="number">4</span>],</span><br><span class="line">  [<span class="number">8</span>, <span class="number">10</span>],</span><br><span class="line">  [<span class="number">5</span>, <span class="number">7</span>],</span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+
+<h3 id="两地调度"><a href="#两地调度" class="headerlink" title="两地调度"></a>两地调度</h3><p>[贪心算法]2N 个人，去 A, B 两座城市旅游，每座城市去 N 个人。第 i 个人去 A 座城市车费为 costs[i][0], B 座城市车费为 costs[i][1],问怎样分配花费最少</p>
+<blockquote>
+<p>假设都准备去 B，然后从 B 中抽出 N 个人去 A，怎么样最省钱？costs[i][0] - costs[i][1] 值越小越省。根据 B-A 排序</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> twoCitySchedCost = <span class="function"><span class="keyword">function</span> (<span class="params">costs</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> sum = <span class="number">0</span>,</span><br><span class="line">    n = costs.length / <span class="number">2</span>;</span><br><span class="line">  costs.sort(<span class="function">(<span class="params">a, b</span>) =&gt;</span> a[<span class="number">0</span>] - a[<span class="number">1</span>] - (b[<span class="number">0</span>] - b[<span class="number">1</span>]));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    sum += costs[i][<span class="number">0</span>] + costs[i + n][<span class="number">1</span>];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> sum;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="斐波那契数列"><a href="#斐波那契数列" class="headerlink" title="斐波那契数列"></a>斐波那契数列</h3><p>1 1 2 3 5 8 … 斐波那契数列求第 n 个数是多少</p>
+<ol>
+<li>递归</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fib = <span class="function"><span class="keyword">function</span> (<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n == <span class="number">1</span> || n == <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> fib(n - <span class="number">1</span>) + fib(n - <span class="number">2</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>动态规划</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fb</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (n == <span class="number">1</span> || n == <span class="number">2</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> prev = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">let</span> current = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">3</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    <span class="keyword">let</span> sum = prev + current;</span><br><span class="line">    prev = current;</span><br><span class="line">    current = sum;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> current;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="整数拆分"><a href="#整数拆分" class="headerlink" title="整数拆分"></a>整数拆分</h3><p>给定一个正整数 n，将其拆分为至少两个正整数的和，并使这些整数的乘积最大化。 返回你可以获得的最大乘积。你可以假设 n 不小于 2 且不大于 58</p>
+<img src="/blog/.io//2020/11/11/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/dp-break-integer.png" class>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">解题思路： f(n) &#x3D; f(n-i) + i</span><br><span class="line"></span><br><span class="line">1. 假设 n &#x3D;&#x3D; 4， 则可以分割成 f(3) + 1，f(2) + 2，f(1) + 3, 所以得出方程 f(n) &#x3D; f(n-i) + i；</span><br><span class="line">   得出 i 时的最大乘积：Math.max(f(n-i) * i, max)</span><br><span class="line">2. 代码中 integerBreak(n - i)表示将每一个值都至少分割n - i次，还有一种情况是只分割一次，n 和 n - i, 所以加上 i * (n - i)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>递归解法</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> integerBreak = <span class="function"><span class="keyword">function</span> (<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> res = -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="comment">// f(n) = f(n-i) + i</span></span><br><span class="line">    res = <span class="built_in">Math</span>.max(res, i * (n - i), integerBreak(n - i) * i);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>记忆化搜索 + 递归。自顶向下的方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> integerBreak = <span class="function"><span class="keyword">function</span> (<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 初始化长度为n+1的数组，默认值-1，因为用到了memo[n]</span></span><br><span class="line">  <span class="keyword">var</span> memo = <span class="built_in">Array</span>(n + <span class="number">1</span>).fill(-<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> breakInteger(n, memo);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> breakInteger = <span class="function"><span class="keyword">function</span> (<span class="params">n, memo</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> res = -<span class="number">1</span>;</span><br><span class="line">  <span class="comment">// 直接返回为n时已计算过的值</span></span><br><span class="line">  <span class="keyword">if</span> (memo[n] != -<span class="number">1</span>) <span class="keyword">return</span> memo[n];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="comment">// f(n) = f(n-i) + i</span></span><br><span class="line">    res = <span class="built_in">Math</span>.max(res, i * (n - i), breakInteger(n - i, memo) * i);</span><br><span class="line">  &#125;</span><br><span class="line">  memo[n] = res;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>动态规划</li>
+</ol>
+<p>自底向上的问题，先解决最基本的问题</p>
+<p>f(2) = f(1) + 1<br>f(3) = f(2) + 1 =&gt; f(1) + 2</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> integerBreak = <span class="function"><span class="keyword">function</span> (<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> memo = <span class="built_in">Array</span>(n + <span class="number">1</span>).fill(-<span class="number">1</span>);</span><br><span class="line">  <span class="comment">// i为1时的最大乘积</span></span><br><span class="line">  memo[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">1</span>; j &lt;= i - <span class="number">1</span>; j++) &#123;</span><br><span class="line">      <span class="comment">// console.log(j, i - j);</span></span><br><span class="line">      memo[i] = <span class="built_in">Math</span>.max(memo[i], j * (i - j), j * memo[i - j]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> memo[n];</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 打印顺序(自底向上)，参考图片</span></span><br><span class="line"><span class="comment">// (+1, 1) (+1, 2) (+2, 1) (+1, 3) (+2, 2) (+3, 1)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="0-1-背包问题"><a href="#0-1-背包问题" class="headerlink" title="0-1 背包问题"></a>0-1 背包问题</h3><p>有 n 个容量为 c0,c1,c2..cn 的物品，每个物品价值分别为 v0,v1,v2…vn 放到最大容量为 C 的背包里，怎么放使背包里物品的价值最大</p>
+<img src="/blog/.io//2020/11/11/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/01-1.png" class>
+
+<p><b>题解</b><br>F(n, C) 将 n 个物品放进容量为 C 的背包。需要考虑两种情况</p>
+<ol>
+<li>不考虑第 i 个物品</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">F(i, c) = F(i - <span class="number">1</span>, c);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>考虑第 i 个物品</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// v[i]：第i个物品的价值</span></span><br><span class="line"><span class="comment">// c - w[i]：此时剩下背包的容量需要减去第 i 个物品已经占用的容量</span></span><br><span class="line">F(i, c) = v[i] + F(i - <span class="number">1</span>, c - w[i]);</span><br></pre></td></tr></table></figure>
+
+<p>两种情况取最大值，则有转移方程</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">F(i, C) = max(F(i - <span class="number">1</span>, c), v(i) + F(i - <span class="number">1</span>, c - w(i)));</span><br></pre></td></tr></table></figure>
+
+<img src="/blog/.io//2020/11/11/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/01-2.png" class>
+
+<p><b>实现</b></p>
+<ol>
+<li>递归实现</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> capacity = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">var</span> weights = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> values = [<span class="number">6</span>, <span class="number">10</span>, <span class="number">12</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bestValue</span>(<span class="params">w, v, i, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (i &lt; <span class="number">0</span> || c &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> res = bestValue(w, v, i - <span class="number">1</span>, c);</span><br><span class="line">  <span class="keyword">if</span> (c &gt;= w[i]) res = <span class="built_in">Math</span>.max(res, v[i] + bestValue(w, v, i - <span class="number">1</span>, c - w[i]));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bestValue(weights, values, values.length - <span class="number">1</span>, capacity);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>记忆化搜索</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// i 个物品</span></span><br><span class="line"><span class="keyword">var</span> memo = <span class="built_in">Array</span>(values.length).fill(<span class="built_in">Array</span>(capacity + <span class="number">1</span>).fill(-<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bestValue</span>(<span class="params">w, v, i, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (i &lt; <span class="number">0</span> || c &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (memo[i][c] != -<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> memo[i][c];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> res = bestValue(w, v, i - <span class="number">1</span>, c);</span><br><span class="line">  <span class="keyword">if</span> (c &gt;= w[i]) res = <span class="built_in">Math</span>.max(res, v[i] + bestValue(w, v, i - <span class="number">1</span>, c - w[i]));</span><br><span class="line"></span><br><span class="line">  memo[i][c] = res;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bestValue(weights, values, values.length - <span class="number">1</span>, capacity);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>动态规划</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> capacity = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">var</span> weights = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> values = [<span class="number">6</span>, <span class="number">10</span>, <span class="number">12</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bestValue</span>(<span class="params">w, v, C</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> n = v.length;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="comment">// i 个物品</span></span><br><span class="line">  <span class="keyword">var</span> memo = <span class="built_in">Array</span>.from(<span class="built_in">Array</span>(n), <span class="function">() =&gt;</span> <span class="built_in">Array</span>(C + <span class="number">1</span>).fill(-<span class="number">1</span>));</span><br><span class="line">  <span class="comment">// 自顶向下，初始化默认值</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt;= C; j++) &#123;</span><br><span class="line">    memo[<span class="number">0</span>][j] = j &gt;= w[<span class="number">0</span>] ? v[<span class="number">0</span>] : <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 循环遍历n个商品</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt;= C; j++) &#123;</span><br><span class="line">      <span class="comment">// 第1种情况</span></span><br><span class="line">      memo[i][j] = memo[i - <span class="number">1</span>][j];</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (j &gt;= w[i]) &#123;</span><br><span class="line">        <span class="comment">// 第二种情况，取最大值</span></span><br><span class="line">        memo[i][j] = <span class="built_in">Math</span>.max(memo[i][j], v[i] + memo[i - <span class="number">1</span>][j - w[i]]);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> memo[n - <span class="number">1</span>][C];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="最长公共子序列"><a href="#最长公共子序列" class="headerlink" title="最长公共子序列"></a>最长公共子序列</h3><p>给定一个无序的整数数组，找到其中最长上升子序列的长度</p>
+<p><b>解题思路</b></p>
+<img src="/blog/.io//2020/11/11/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/lis.png" class>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> lengthOfLIS = <span class="function"><span class="keyword">function</span> (<span class="params">nums</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (nums.length &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 默认只有一个最长子序列，就是数值本身</span></span><br><span class="line">  <span class="keyword">let</span> memo = <span class="built_in">Array</span>(nums.length).fill(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    <span class="comment">// nums[i]以前，是否有小于nums[i]的值</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (nums[i] &gt; nums[j]) &#123;</span><br><span class="line">        memo[i] = <span class="built_in">Math</span>.max(memo[i], <span class="number">1</span> + memo[j]);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Math</span>.max(...memo);</span><br><span class="line">&#125;;</span><br><span class="line">lengthOfLIS([<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">3</span>]);</span><br></pre></td></tr></table></figure>
+
+<h3 id="打家劫舍"><a href="#打家劫舍" class="headerlink" title="打家劫舍"></a>打家劫舍</h3><p>求所有不相邻的整数的最大值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> rob = <span class="function">(<span class="params">nums</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 1. 边界条件</span></span><br><span class="line">  <span class="keyword">if</span> (nums == <span class="literal">null</span> || nums.length == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (nums.length == <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 2. 初始化数组</span></span><br><span class="line">  <span class="keyword">let</span> dp = <span class="built_in">Array</span>(nums.length).fill(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  dp[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">  dp[<span class="number">1</span>] = <span class="built_in">Math</span>.max(nums[<span class="number">0</span>], nums[<span class="number">1</span>]);</span><br><span class="line">  <span class="comment">// 3： 循环</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">2</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    <span class="comment">// 两种情况，选或者不选为i时的值。求两种情况的最大值</span></span><br><span class="line">    dp[i] = <span class="built_in">Math</span>.max(nums[i] + dp[i - <span class="number">2</span>], dp[i - <span class="number">1</span>]);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> dp[nums.length - <span class="number">1</span>];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ret = rob(arr);</span><br></pre></td></tr></table></figure>
+
+<h3 id="零钱兑换"><a href="#零钱兑换" class="headerlink" title="零钱兑换"></a>零钱兑换</h3><p>给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回  -1。</p>
+<p>你可以认为每种硬币的数量是无限的。</p>
+<ol>
+<li>确定状态<br>dp[x] 总金额为 x 时，所需的最小硬币数<br>dp[x] = min(dp[x - coins[1]] + 1, dp[x])</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number&#125;</span> <span class="variable">amount</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">coins</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> change = <span class="function"><span class="keyword">function</span> (<span class="params">amount, coins</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> dp = <span class="built_in">Array</span>(amount + <span class="number">1</span>).fill(<span class="built_in">Number</span>.MAX_VALUE);</span><br><span class="line">  dp[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> currentAmount = <span class="number">1</span>; currentAmount &lt;= amount; currentAmount++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> coin <span class="keyword">of</span> coins) &#123;</span><br><span class="line">      <span class="comment">// 减去coin后的剩余金额</span></span><br><span class="line">      <span class="keyword">let</span> leftAmount = currentAmount - coin;</span><br><span class="line">      <span class="comment">// 剩余金额小于0就不用再算了</span></span><br><span class="line">      <span class="keyword">if</span> (leftAmount &lt; <span class="number">0</span> || dp[leftAmount] == <span class="built_in">Number</span>.MAX_VALUE) <span class="keyword">continue</span>;</span><br><span class="line">      dp[currentAmount] = <span class="built_in">Math</span>.min(<span class="number">1</span> + dp[leftAmount], dp[currentAmount]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> dp[amount] == <span class="built_in">Number</span>.MAX_VALUE ? -<span class="number">1</span> : dp[amount];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/11/09/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.jpg">
+      <meta itemprop="name" content="Mr Lee">
+      <meta itemprop="description" content="永不言弃">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr Lee">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2020/11/09/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">排序算法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-09 11:56:53" itemprop="dateCreated datePublished" datetime="2020-11-09T11:56:53+08:00">2020-11-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-11 13:46:47" itemprop="dateModified" datetime="2020-11-11T13:46:47+08:00">2020-11-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">selectSort</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = i + <span class="number">1</span>; j &lt; arr.length; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[i] - arr[j] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> temp = arr[i];</span><br><span class="line">        arr[i] = arr[j];</span><br><span class="line">        arr[j] = temp;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertSort</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = i; j &gt; <span class="number">0</span>; j--) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[j] - arr[j - <span class="number">1</span>] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      swap(arr, j, j - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (arr.length == <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> middle = <span class="built_in">Math</span>.floor(arr.length / <span class="number">2</span>),</span><br><span class="line">    left = arr.slice(<span class="number">0</span>, middle),</span><br><span class="line">    right = arr.slice(middle);</span><br><span class="line">  <span class="keyword">return</span> merge(mergeSort(left), mergeSort(right));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">merge</span>(<span class="params">left, right</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> result = [];</span><br><span class="line">  <span class="keyword">while</span> (left.length &gt; <span class="number">0</span> &amp;&amp; right.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (left[<span class="number">0</span>] &lt; right[<span class="number">0</span>]) &#123;</span><br><span class="line">      <span class="comment">/*shift()⽅法⽤于把数组的第⼀个元素从其中删除，并返回第⼀个元素的值。*/</span> result.push(</span><br><span class="line">        left.shift()</span><br><span class="line">      );</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      result.push(right.shift());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result.concat(left).concat(right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quicksort</span>(<span class="params">arr = []</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (arr.length &lt;= <span class="number">1</span>) <span class="keyword">return</span> arr;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> pivot = <span class="built_in">Math</span>.floor(arr.length - <span class="number">1</span> / <span class="number">2</span>);</span><br><span class="line">  <span class="keyword">let</span> pivotVal = arr[pivot];</span><br><span class="line">  <span class="keyword">let</span> less = [],more = [];</span><br><span class="line"></span><br><span class="line">  arr.splice(pivot, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; pivot; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[i] &lt; pivotVal) &#123;</span><br><span class="line">      less.push(arr[i]); <span class="comment">// 小于中间值，存less</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      more.push(arr[i]); <span class="comment">// 大于中间值，存less</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 每次将结果合并， 递归这里要简单点想，不要去想他的执行哪一步，返回的结果是什么</span></span><br><span class="line">  <span class="keyword">return</span> [...quicksort(less), pivotVal, ...quicksort(more)];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/11/07/nodejs%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.jpg">
+      <meta itemprop="name" content="Mr Lee">
+      <meta itemprop="description" content="永不言弃">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr Lee">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2020/11/07/nodejs%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">nodejs基础</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-07 10:50:26" itemprop="dateCreated datePublished" datetime="2020-11-07T10:50:26+08:00">2020-11-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-20 17:03:00" itemprop="dateModified" datetime="2020-11-20T17:03:00+08:00">2020-11-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/node/" itemprop="url" rel="index"><span itemprop="name">node</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="nodejs-调试"><a href="#nodejs-调试" class="headerlink" title="nodejs 调试"></a>nodejs 调试</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node --inspect-brk .\test.js</span><br></pre></td></tr></table></figure>
+
+<h3 id="path"><a href="#path" class="headerlink" title="path"></a>path</h3><p>path 模块常用语法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&quot;path&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> resolvePath = path.resolve(__dirname, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> joinPath = path.join(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 项目根目录</span></span><br><span class="line"><span class="comment">// E:\文档\Projects</span></span><br><span class="line"><span class="built_in">console</span>.log(path.resolve());</span><br><span class="line"><span class="comment">// E:\文档\Projects\demo\a\b</span></span><br><span class="line"><span class="built_in">console</span>.log(resolvePath);</span><br><span class="line"><span class="comment">// 当前工作目录</span></span><br><span class="line"><span class="built_in">console</span>.log(process.cwd());</span><br><span class="line"><span class="comment">// a\b</span></span><br><span class="line"><span class="built_in">console</span>.log(joinPath);</span><br><span class="line"><span class="comment">// 当前文件所在的目录</span></span><br><span class="line"><span class="comment">// E:\文档\Projects\demo\path.js</span></span><br><span class="line"><span class="built_in">console</span>.log(__filename);</span><br><span class="line"></span><br><span class="line"><span class="comment">// E:\文档\Projects\demo</span></span><br><span class="line"><span class="built_in">console</span>.log(__dirname);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 后缀 .js</span></span><br><span class="line"><span class="built_in">console</span>.log(path.extname(__filename));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 文件名 path.js</span></span><br><span class="line"><span class="built_in">console</span>.log(path.basename(__filename));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 文件路径 E:\文档\Projects\demo</span></span><br><span class="line"><span class="built_in">console</span>.log(path.dirname(__filename));</span><br></pre></td></tr></table></figure>
+
+<h3 id="fs"><a href="#fs" class="headerlink" title="fs"></a>fs</h3><ol start="2">
+<li>promise 封装读取文件</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&quot;path&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> pathToFile = path.resolve(__dirname, <span class="string">&quot;./file.txt&quot;</span>);</span><br><span class="line"><span class="comment">// 将方法func 封装成promise</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">promisify</span>(<span class="params">func</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      args.push(<span class="function"><span class="keyword">function</span> (<span class="params">err, result</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (err) reject(err);</span><br><span class="line">        <span class="keyword">return</span> resolve(result);</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span> func.apply(func, args);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">promisify(fs.readFile)(pathToFile, <span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line">  .then(<span class="function">(<span class="params">content</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(content);</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(<span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(e);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="require-功能实现"><a href="#require-功能实现" class="headerlink" title="require 功能实现"></a>require 功能实现</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> vm = <span class="built_in">require</span>(<span class="string">&quot;vm&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&quot;path&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 记录一下，以便日后深入学习</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">r</span>(<span class="params">filename</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> pathToFile = path.resolve(__dirname, filename);</span><br><span class="line">  <span class="keyword">const</span> content = fs.readFileSync(pathToFile, <span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> wrapper = [<span class="string">&quot;(function(require, module, exports)&#123;&quot;</span>, <span class="string">&quot;&#125;)&quot;</span>];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> wrappedConent = wrapper[<span class="number">0</span>] + content + wrapper[<span class="number">1</span>];</span><br><span class="line">  <span class="comment">// 使字符串转换为可执行js脚本</span></span><br><span class="line">  <span class="keyword">const</span> script = <span class="keyword">new</span> vm.Script(wrappedConent, &#123;</span><br><span class="line">    filename: <span class="string">&quot;index.js&quot;</span>,</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="built_in">module</span> = &#123;</span><br><span class="line">    <span class="keyword">export</span>: &#123;&#125;,</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> result = script.runInThisContext();</span><br><span class="line">  <span class="comment">// 等于wrapper内的匿名函数</span></span><br><span class="line">  result(r, <span class="built_in">module</span>, <span class="built_in">module</span>.exports);</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">module</span>.exports;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">global</span>.r = r;</span><br></pre></td></tr></table></figure>
+
+<p>使用时只需要这样用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&quot;./require&quot;</span>);</span><br><span class="line"></span><br><span class="line">r(<span class="string">&quot;./test.js&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="module-exports"><a href="#module-exports" class="headerlink" title="module.exports"></a>module.exports</h3><p>为什么 module.exports 不能用 exports 直接赋值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  key: &#123;&#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">obj.key = <span class="string">&quot;我可以改变值&quot;</span>;</span><br><span class="line"><span class="built_in">console</span>.log(obj.key); <span class="comment">// 我可以改变值</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// let key = obj.key;</span></span><br><span class="line"><span class="comment">// key = &quot;没有改变&quot;;</span></span><br><span class="line"><span class="comment">// console.log(obj.key); // &#123;&#125;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/11/06/es6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.jpg">
+      <meta itemprop="name" content="Mr Lee">
+      <meta itemprop="description" content="永不言弃">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr Lee">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2020/11/06/es6/" class="post-title-link" itemprop="url">es6</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-06 17:46:15" itemprop="dateCreated datePublished" datetime="2020-11-06T17:46:15+08:00">2020-11-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-19 16:53:56" itemprop="dateModified" datetime="2020-11-19T16:53:56+08:00">2020-11-19</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>工具库尽量命名方式导出，不要使用对象导出。对象在编译的时候不能被优化掉</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// utils.js right</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> request = <span class="function">(<span class="params">params</span>) =&gt;</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> debounce = <span class="function">(<span class="params">time</span>) =&gt;</span> &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// utils.js wrong</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> utils = &#123;</span><br><span class="line"></span><br><span class="line">  request:<span class="function">(<span class="params">params</span>) =&gt;</span> &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  debounce:<span class="function">(<span class="params">time</span>) =&gt;</span> &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/11/06/js%E8%A3%85%E9%A5%B0%E5%99%A8-decorators/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.jpg">
+      <meta itemprop="name" content="Mr Lee">
+      <meta itemprop="description" content="永不言弃">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr Lee">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2020/11/06/js%E8%A3%85%E9%A5%B0%E5%99%A8-decorators/" class="post-title-link" itemprop="url">js装饰器-decorators</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-06 14:45:25 / 修改时间：17:09:22" itemprop="dateCreated datePublished" datetime="2020-11-06T14:45:25+08:00">2020-11-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/babel/" itemprop="url" rel="index"><span itemprop="name">babel</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="安装-babel-转译支持"><a href="#安装-babel-转译支持" class="headerlink" title="安装 babel 转译支持"></a>安装 babel 转译支持</h3><ol>
+<li>安装 babel 编译器</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev @babel&#x2F;cli</span><br><span class="line">npm install --save-dev @babel&#x2F;core</span><br><span class="line">npm install --save-dev @babel&#x2F;plugin-proposal-class-properties</span><br><span class="line">npm install --save-dev @babel&#x2F;preset-env</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>添加配置文件[.babelrc]</li>
+</ol>
+<blockquote>
+<p>注意配置中插件的位置</p>
+</blockquote>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;presets&quot;</span>: [<span class="string">&quot;@babel/preset-env&quot;</span>],</span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span>: [</span><br><span class="line">    [<span class="string">&quot;@babel/plugin-proposal-decorators&quot;</span>, &#123; <span class="attr">&quot;legacy&quot;</span>: <span class="literal">true</span> &#125;],</span><br><span class="line">    [<span class="string">&quot;@babel/plugin-proposal-class-properties&quot;</span>, &#123; <span class="attr">&quot;loose&quot;</span>: <span class="literal">true</span> &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>手动编译方法</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx babel [测试文件相对路径] --out-dir [输出位置]</span><br></pre></td></tr></table></figure>
+
+<h3 id="类装饰器"><a href="#类装饰器" class="headerlink" title="类装饰器"></a>类装饰器</h3><p>对类进行操作，target 参数是类本身</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> itemFy = <span class="function">(<span class="params">target</span>) =&gt;</span> &#123;</span><br><span class="line">  target.prototype.click = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;click&quot;</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">@itemFy</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&lt;div&gt;&lt;/div&gt;&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> comp = <span class="keyword">new</span> MyComponent();</span><br><span class="line"></span><br><span class="line">comp.click(); <span class="comment">// log: click</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="属性装饰器"><a href="#属性装饰器" class="headerlink" title="属性装饰器"></a>属性装饰器</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> itemPropFy = <span class="function">(<span class="params">targetPrototype, propName</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> originRender = targetPrototype.render;</span><br><span class="line">  targetPrototype.render = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`&lt;div class=&quot;outer&quot;&gt;<span class="subst">$&#123;originRender.call(<span class="built_in">this</span>)&#125;</span>&lt;/div&gt;`</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">// 注意返回值</span></span><br><span class="line">  <span class="keyword">return</span> targetPrototype;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> </span>&#123;</span><br><span class="line">  @itemPropFy</span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&lt;div&gt;内容&lt;/div&gt;&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> comp = <span class="keyword">new</span> MyComponent();</span><br><span class="line"><span class="built_in">console</span>.log(comp.render()); <span class="comment">// &lt;div class=&quot;outer&quot;&gt;&lt;div&gt;内容&lt;/div&gt;&lt;/div&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>带参装饰器</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> updateText = <span class="function">(<span class="params">content</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">targetPrototype, propName</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (targetPrototype[propName] = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> content;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> </span>&#123;</span><br><span class="line">  @updateText(<span class="string">&quot;我是render&quot;</span>)</span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @updateText(<span class="string">&quot;我是renderTwo&quot;</span>)</span><br><span class="line">  <span class="function"><span class="title">renderTwo</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> comp = <span class="keyword">new</span> MyComponent();</span><br><span class="line"><span class="built_in">console</span>.log(comp.render());</span><br><span class="line"><span class="built_in">console</span>.log(comp.renderTwo());</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/11/06/babel%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.jpg">
+      <meta itemprop="name" content="Mr Lee">
+      <meta itemprop="description" content="永不言弃">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr Lee">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2020/11/06/babel%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">babel相关问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-06 14:36:47" itemprop="dateCreated datePublished" datetime="2020-11-06T14:36:47+08:00">2020-11-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-16 13:40:03" itemprop="dateModified" datetime="2020-11-16T13:40:03+08:00">2020-11-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/q-a/" itemprop="url" rel="index"><span itemprop="name">q&a</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="编译时遇到一些问题"><a href="#编译时遇到一些问题" class="headerlink" title="编译时遇到一些问题"></a>编译时遇到一些问题</h3><p>使用以下命令 编译装饰器测试 demo，遇到问题</p>
+<p>命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx babel .\decorators.js --out-dir ./dist/decorators</span><br></pre></td></tr></table></figure>
+
+<p>问题</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Support <span class="keyword">for</span> the experimental syntax <span class="string">&#x27;decorators-legacy&#x27;</span> isn<span class="string">&#x27;t currently enabled</span></span><br></pre></td></tr></table></figure>
+
+<p>解决方法</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;presets&quot;</span>: [<span class="string">&quot;@babel/preset-env&quot;</span>],</span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span>: [</span><br><span class="line">    ++ [<span class="string">&quot;@babel/plugin-proposal-decorators&quot;</span>, &#123; <span class="attr">&quot;legacy&quot;</span>: <span class="literal">true</span> &#125;],</span><br><span class="line">    ++ [<span class="string">&quot;@babel/plugin-proposal-class-properties&quot;</span>, &#123; <span class="attr">&quot;loose&quot;</span> : <span class="literal">true</span> &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果想支持装饰器还需要创建 jsconfig.json 或 tsconfig.json 配置文件，并添加一下配置</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;experimentalDecorators&quot;</span>: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/11/03/CSS%E5%8F%82%E8%80%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.jpg">
+      <meta itemprop="name" content="Mr Lee">
+      <meta itemprop="description" content="永不言弃">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr Lee">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2020/11/03/CSS%E5%8F%82%E8%80%83/" class="post-title-link" itemprop="url">CSS参考</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-03 15:27:22" itemprop="dateCreated datePublished" datetime="2020-11-03T15:27:22+08:00">2020-11-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-04 10:45:11" itemprop="dateModified" datetime="2021-03-04T10:45:11+08:00">2021-03-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="CSS-var-函数"><a href="#CSS-var-函数" class="headerlink" title="CSS var() 函数"></a>CSS var() 函数</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 定义一个名为 &quot;--main-bg-color&quot; 的属性，然后使用 var() 函数调用该属性： */</span></span><br><span class="line"><span class="selector-pseudo">:root</span> &#123;</span><br><span class="line">  <span class="attribute">--main-bg-color</span>: coral;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#div1</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">var</span>(--main-bg-color);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#div2</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">var</span>(--main-bg-color);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="CSS-linear-gradient-函数"><a href="#CSS-linear-gradient-函数" class="headerlink" title="CSS linear-gradient() 函数"></a>CSS linear-gradient() 函数</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 从头部开始的线性渐变，从红色开始，转为黄色，再到蓝色： */</span></span><br><span class="line"><span class="selector-id">#grad</span> &#123;</span><br><span class="line">  <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(red, yellow, blue);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 从上到下，蓝色渐变到红色 */</span></span><br><span class="line"><span class="selector-tag">linear-gradient</span>(45<span class="selector-tag">deg</span>, <span class="selector-tag">blue</span>, <span class="selector-tag">red</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 渐变轴为45度，从蓝色渐变到红色 */</span></span><br><span class="line"><span class="selector-tag">linear-gradient</span>(45<span class="selector-tag">deg</span>, <span class="selector-tag">blue</span>, <span class="selector-tag">red</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 从右下到左上、从蓝色渐变到红色 */</span></span><br><span class="line"><span class="selector-tag">linear-gradient</span>(<span class="selector-tag">to</span> <span class="selector-tag">left</span> <span class="selector-tag">top</span>, <span class="selector-tag">blue</span>, <span class="selector-tag">red</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 从下到上，从蓝色开始渐变、到高度40%位置是绿色渐变开始、最后以红色结束 */</span></span><br><span class="line"><span class="selector-tag">linear-gradient</span>(0<span class="selector-tag">deg</span>, <span class="selector-tag">blue</span>, <span class="selector-tag">green</span> 40%, <span class="selector-tag">red</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h3><p>:defined</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 选择所有已定义的元素 */</span></span><br><span class="line"><span class="selector-pseudo">:defined</span> &#123;</span><br><span class="line">  <span class="attribute">font-style</span>: italic;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 选择指定自定义元素的任何实例 */</span></span><br><span class="line"><span class="selector-tag">simple-custom</span><span class="selector-pseudo">:defined</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/10/29/html%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -413,360 +1141,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/10/23/nginx%E6%93%8D%E4%BD%9C%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/blog/images/avatar.jpg">
-      <meta itemprop="name" content="Mr Lee">
-      <meta itemprop="description" content="永不言弃">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Mr Lee">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/blog/2020/10/23/nginx%E6%93%8D%E4%BD%9C%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">nginx操作总结</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-10-23 14:01:12" itemprop="dateCreated datePublished" datetime="2020-10-23T14:01:12+08:00">2020-10-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-16 17:47:11" itemprop="dateModified" datetime="2020-11-16T17:47:11+08:00">2020-11-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><b>1.nginx 部署 web 项目刷新 404</b><br>这种情况一般在项目使用 history 模式时发生，我们需要对 nginx.conf 做以下修改</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server</span> <span class="string">&#123;</span></span><br><span class="line">  <span class="attr">listen</span> <span class="string">4400;</span></span><br><span class="line">    <span class="attr">location</span> <span class="string">/api/ &#123;</span></span><br><span class="line">    <span class="attr">proxy_pass</span> <span class="string">http://localhost:8080/;</span></span><br><span class="line">  <span class="attr">&#125;</span></span><br><span class="line">  <span class="attr">location</span> <span class="string">/ &#123;</span></span><br><span class="line">    <span class="attr">root</span> <span class="string">/home/web/handy;</span></span><br><span class="line"><span class="comment">    # 添加</span></span><br><span class="line">    <span class="attr">try_files</span> <span class="string">$uri $uri/ /index.html;</span></span><br><span class="line">  <span class="attr">&#125;</span></span><br><span class="line"><span class="attr">&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>try_files：当访问 <a target="_blank" rel="noopener" href="http://localhost/example/">http://localhost/example/</a>, $uri 就是/example，nginx 会尝试此路径，找到内容后返回给客户端</p>
-<p><b>2.ubantu中nginx相关操作</b></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 平滑重启</span></span><br><span class="line">$ nginx -s reload</span><br><span class="line"><span class="comment"># 强制重启</span></span><br><span class="line">$ systemctl restart nginx</span><br><span class="line"><span class="comment"># 停止nginx</span></span><br><span class="line">$ nginx -s stop</span><br><span class="line"><span class="comment"># 平滑停止</span></span><br><span class="line">$ nginx -s quit</span><br><span class="line"><span class="comment"># 启动nginx服务</span></span><br><span class="line">$ systemctl start nginx</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/10/21/%E6%9C%80%E8%BF%91%E5%81%9Aionic%E6%9C%89%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/blog/images/avatar.jpg">
-      <meta itemprop="name" content="Mr Lee">
-      <meta itemprop="description" content="永不言弃">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Mr Lee">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/blog/2020/10/21/%E6%9C%80%E8%BF%91%E5%81%9Aionic%E6%9C%89%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/" class="post-title-link" itemprop="url">最近做ionic有一些想法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-10-21 22:25:00" itemprop="dateCreated datePublished" datetime="2020-10-21T22:25:00+08:00">2020-10-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-29 17:12:16" itemprop="dateModified" datetime="2020-10-29T17:12:16+08:00">2020-10-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>静态资源有两种访问形式</p>
-<ol>
-<li>根据服务器根目录加载，适用于 history 模式使用，如：</li>
-</ol>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- http://localhost:4000/project/add --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- http://localhost:4000/project/update --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;/static/js/4.01604861.chunk.js&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>根据项目当前访问路径相对位置加载,适用使用 useHash 模式时的情况</li>
-</ol>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- http://localhost:4000/#/project/update --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./static/js/4.01604861.chunk.js&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>记录一时的想法，如过描述有误，请联系我</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/10/20/%E4%BD%BF%E7%94%A8hexo%E5%BF%AB%E9%80%9F%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/blog/images/avatar.jpg">
-      <meta itemprop="name" content="Mr Lee">
-      <meta itemprop="description" content="永不言弃">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Mr Lee">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/blog/2020/10/20/%E4%BD%BF%E7%94%A8hexo%E5%BF%AB%E9%80%9F%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/" class="post-title-link" itemprop="url">使用hexo快速建自己的博客</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-10-20 11:26:52" itemprop="dateCreated datePublished" datetime="2020-10-20T11:26:52+08:00">2020-10-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-03 14:42:50" itemprop="dateModified" datetime="2020-12-03T14:42:50+08:00">2020-12-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Hexo 是一个快速、简洁且高效的博客框架</p>
-<h3 id="安装-hexo"><a href="#安装-hexo" class="headerlink" title="安装 hexo"></a>安装 hexo</h3><p>使用 npm 全局安装 hexo</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-
-<h3 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h3><p>安装完成 hexo 后，执行以下命令新建项目并安装依赖库</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init &lt;folder&gt;</span><br><span class="line">$ <span class="built_in">cd</span> &lt;folder&gt;</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
-
-<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><p>所有步骤执行完毕之后，执行命令 hexo s 在本地运行查看效果</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
-
-<h3 id="部署到-github"><a href="#部署到-github" class="headerlink" title="部署到 github"></a>部署到 github</h3><p>看完效果觉得还不错，想部署到 github 上让所有人看到？来试试修改_config.yml 文件</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">&lt;博客仓库地址&gt;</span> <span class="comment">#https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io</span></span><br><span class="line">  <span class="attr">branch:</span> [<span class="string">分支</span>]</span><br><span class="line">  <span class="attr">message:</span> [<span class="string">自定义提交信息</span>]</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装部署插件"><a href="#安装部署插件" class="headerlink" title="安装部署插件"></a>安装部署插件</h3><p>等等，配置文件修改完了，就直接部署到 github 上了吗？|— – |</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br><span class="line"><span class="comment"># 清理缓存</span></span><br><span class="line">$ hexo clean &amp;&amp; hexo deploy</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="部署到-github-没有样式"><a href="#部署到-github-没有样式" class="headerlink" title="部署到 github 没有样式"></a>部署到 github 没有样式</h3><p>部署到 github 上发现没有样式，发现资源文件路径不对，于是修改以下配置，重新发布</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">url:</span> <span class="string">https://yaqilee.github.io/resposity</span></span><br><span class="line"><span class="attr">root:</span> <span class="string">/resposity/</span></span><br></pre></td></tr></table></figure>
-
-<p>清理缓存，重新生成, 如果删除文件报错，多试几次</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br><span class="line">$ hexo g</span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>执行下列任一命令，也可以自动部署网站</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate --deploy</span><br><span class="line">$ hexo deploy --generate</span><br></pre></td></tr></table></figure>
-
-<h3 id="启用站内搜索"><a href="#启用站内搜索" class="headerlink" title="启用站内搜索"></a>启用站内搜索</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-<p>_config.yml</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">local_search:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> <span class="comment"># 启用</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加配置</span></span><br><span class="line"><span class="attr">search:</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">search.xml</span></span><br><span class="line">  <span class="attr">field:</span> <span class="string">post</span></span><br><span class="line">  <span class="attr">format:</span> <span class="string">html</span></span><br><span class="line">  <span class="attr">limit:</span> <span class="number">10000</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 新建页面</span></span><br><span class="line">$ hexo new page [新页面名称]</span><br><span class="line"><span class="comment"># 新建帖子</span></span><br><span class="line">$ hexo new [博客标题]</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/10/20/%E5%AE%89%E8%A3%85maridb/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/blog/images/avatar.jpg">
-      <meta itemprop="name" content="Mr Lee">
-      <meta itemprop="description" content="永不言弃">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Mr Lee">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/blog/2020/10/20/%E5%AE%89%E8%A3%85maridb/" class="post-title-link" itemprop="url">在ubantu安装MariaDB</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-10-20 11:08:07" itemprop="dateCreated datePublished" datetime="2020-10-20T11:08:07+08:00">2020-10-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-16 17:47:21" itemprop="dateModified" datetime="2020-11-16T17:47:21+08:00">2020-11-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="安装-MariaDB"><a href="#安装-MariaDB" class="headerlink" title="安装 MariaDB"></a>安装 MariaDB</h3><p>通过软件源仓库安装 MariaDB，运行以下命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install mariadb-server</span><br></pre></td></tr></table></figure>
-
-<p>安装完成之后程序会自动启动，想要验证是否运行，</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status mariadb</span><br></pre></td></tr></table></figure>
-
-<h3 id="MariaDB-安全设置"><a href="#MariaDB-安全设置" class="headerlink" title="MariaDB 安全设置"></a>MariaDB 安全设置</h3><p>安装 mysql_secure_installation 脚本，以此来设置密码等安全操作，来提高数据库的安全性</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install mariadb-server mysql_secure_installation</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/blog/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/blog/">1</a><a class="page-number" href="/blog/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/blog/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/blog/">1</a><a class="page-number" href="/blog/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/blog/page/4/">4</a><a class="extend next" rel="next" href="/blog/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -833,7 +1211,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/blog/archives">
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
