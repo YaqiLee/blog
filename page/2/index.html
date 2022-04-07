@@ -190,6 +190,296 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/12/03/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.jpg">
+      <meta itemprop="name" content="Mr Lee">
+      <meta itemprop="description" content="永不言弃">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr Lee">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2020/12/03/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="post-title-link" itemprop="url">正则表达式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-03 14:28:22" itemprop="dateCreated datePublished" datetime="2020-12-03T14:28:22+08:00">2020-12-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-12-14 10:17:43" itemprop="dateModified" datetime="2020-12-14T10:17:43+08:00">2020-12-14</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h3><p>普通元字符</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\s</td>
+<td>匹配任何空白字符，包括空格、制表符、换页符</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>匹配任何非空白字符</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>匹配单词边界</td>
+</tr>
+<tr>
+<td>\B</td>
+<td>匹配非单词边界</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>匹配一个制表符</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配一个数字</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>匹配一个非数字</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配一个数字、字母、下划线</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>匹配一个非数字、字母、下划线</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>匹配一个换页符</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>匹配一个换行符</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>匹配一个回车符</td>
+</tr>
+<tr>
+<td>.(点)</td>
+<td>匹配一个非换行的任意字符</td>
+</tr>
+</tbody></table>
+<p>限定元字符</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>*</td>
+<td>匹配 0 次或多次</td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配 1 次或多次</td>
+</tr>
+<tr>
+<td>?</td>
+<td>匹配 0 次或 1 次</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配输入字符串的开始位置</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配输入字符串的结束位置</td>
+</tr>
+<tr>
+<td>x|y</td>
+<td>匹配 x 或 y</td>
+</tr>
+<tr>
+<td>{n}</td>
+<td>匹配 n 次</td>
+</tr>
+<tr>
+<td>{n,}</td>
+<td>至少匹配 n 次 或多次</td>
+</tr>
+<tr>
+<td>{n,m}</td>
+<td>匹配 n 次 到 m 次</td>
+</tr>
+<tr>
+<td>[a-z]</td>
+<td>匹配 a-z 范围内的字符</td>
+</tr>
+<tr>
+<td>[xyz]</td>
+<td>匹配 包含的任一字符</td>
+</tr>
+<tr>
+<td>^[xyz]</td>
+<td>匹配 未包含的任一字符</td>
+</tr>
+<tr>
+<td>(pattern)</td>
+<td>匹配 并获取字符</td>
+</tr>
+<tr>
+<td>(?:pattern)</td>
+<td>匹配 pattern，但不返回结果</td>
+</tr>
+<tr>
+<td>(?=pattern)</td>
+<td>正向肯定定预查，不获取结果</td>
+</tr>
+<tr>
+<td>(?!pattern)</td>
+<td>正向否定预查，与肯定预查正好相反，不获取结果</td>
+</tr>
+<tr>
+<td>(?&lt;=pattern)</td>
+<td>反向肯定预查</td>
+</tr>
+<tr>
+<td>(?&lt;!pattern)</td>
+<td>反向否定预查</td>
+</tr>
+</tbody></table>
+<h3 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h3><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>i</td>
+<td>不区分大小写</td>
+</tr>
+<tr>
+<td>g</td>
+<td>全局匹配</td>
+</tr>
+<tr>
+<td>m</td>
+<td>多行匹配</td>
+</tr>
+<tr>
+<td>s</td>
+<td>特殊字符圆点 . 包含换行符 \n</td>
+</tr>
+</tbody></table>
+<h3 id="非贪婪匹配"><a href="#非贪婪匹配" class="headerlink" title="非贪婪匹配"></a>非贪婪匹配</h3><p>在限定符后加<code>?</code>为非贪婪匹配，匹配长度尽可能少的匹配结果</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>*?</td>
+<td>匹配 0 次或多次，但尽可能</td>
+</tr>
+<tr>
+<td>+?</td>
+<td>匹配 1 次或多次</td>
+</tr>
+<tr>
+<td>??</td>
+<td>匹配 0 次或 1 次</td>
+</tr>
+<tr>
+<td>{n,}?</td>
+<td>至少匹配 n 次</td>
+</tr>
+<tr>
+<td>{n,m}?</td>
+<td>匹配 n 次到 m 次</td>
+</tr>
+</tbody></table>
+<p><code>*</code>限定符， 匹配 0 次或多次</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 非全局匹配</span></span><br><span class="line"><span class="string">&quot;123456abcd&quot;</span>.match(<span class="regexp">/\d*/</span>);</span><br><span class="line"><span class="comment">// [&quot;123456&quot;, index: 0, input: &quot;123456abcd&quot;, groups: undefined]</span></span><br><span class="line"><span class="string">&quot;123456abcd&quot;</span>.match(<span class="regexp">/\d*?/</span>);</span><br><span class="line"><span class="comment">// [&quot;&quot;, index: 0, input: &quot;123456abcd&quot;, groups: undefined]</span></span><br><span class="line"><span class="comment">// 全局匹配</span></span><br><span class="line"><span class="string">&quot;123456abcd&quot;</span>.match(<span class="regexp">/\d*?/g</span>);</span><br><span class="line"><span class="comment">// [&quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;]</span></span><br><span class="line"><span class="string">&quot;123456abcd&quot;</span>.match(<span class="regexp">/\d*/g</span>);</span><br><span class="line"><span class="comment">// [&quot;123456&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;]</span></span><br></pre></td></tr></table></figure>
+
+<p><code>+</code>限定符，匹配 1 次或多次</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 匹配结果尽可能少</span></span><br><span class="line"><span class="string">&quot;123456abcd&quot;</span>.match(<span class="regexp">/\d+/</span>);</span><br><span class="line"><span class="comment">// [&quot;123456&quot;, index: 0, input: &quot;123456abcd&quot;, groups: undefined]</span></span><br><span class="line"><span class="string">&quot;123456abcd&quot;</span>.match(<span class="regexp">/\d+?/</span>);</span><br><span class="line"><span class="comment">// [&quot;1&quot;, index: 0, input: &quot;123456abcd&quot;, groups: undefined]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 全局匹配</span></span><br><span class="line"><span class="string">&quot;123456abcd&quot;</span>.match(<span class="regexp">/\d+?/g</span>);</span><br><span class="line"><span class="comment">// [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;]</span></span><br><span class="line"><span class="string">&quot;123456abcd&quot;</span>.match(<span class="regexp">/\d+/g</span>);</span><br><span class="line"><span class="comment">// [&quot;123456&quot;]</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;123456abcd1234&quot;</span>.match(<span class="regexp">/\d+/g</span>);</span><br><span class="line"><span class="comment">// [&quot;123456&quot;, &quot;1234&quot;]</span></span><br></pre></td></tr></table></figure>
+
+<p><code>?</code>限定符，匹配 0 次或 1 次</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;123456abcd&quot;</span>.match(<span class="regexp">/\d??/</span>);</span><br><span class="line"><span class="comment">// [&quot;&quot;, index: 0, input: &quot;123456abcd&quot;, groups: undefined]</span></span><br><span class="line"><span class="string">&quot;123456abcd&quot;</span>.match(<span class="regexp">/\d?/</span>);</span><br><span class="line"><span class="comment">// [&quot;1&quot;, index: 0, input: &quot;123456abcd&quot;, groups: undefined]</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;123456abcd&quot;</span>.match(<span class="regexp">/\d??/g</span>);</span><br><span class="line"><span class="comment">//  [&quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;]</span></span><br><span class="line"><span class="string">&quot;123456abcd&quot;</span>.match(<span class="regexp">/\d?/g</span>);</span><br><span class="line"><span class="comment">// [&quot;123456&quot;]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="示例（js）"><a href="#示例（js）" class="headerlink" title="示例（js）"></a>示例（js）</h3><p>(pattern)：匹配 pattern，并且获取匹配结果</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;3window 7window 8window&quot;</span>.match(<span class="regexp">/(3|7)window/g</span>);</span><br><span class="line"><span class="comment">// [&quot;3window&quot;, &quot;7window&quot;]</span></span><br></pre></td></tr></table></figure>
+
+<p>(?:pattern)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;window3 window7 window8&quot;</span>.match(<span class="regexp">/window(?:3|7)/g</span>);</span><br><span class="line"><span class="comment">// [&quot;window3&quot;, &quot;window7&quot;]</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;window3 window5&quot;</span>.match(<span class="regexp">/window(?:3|7)/</span>);</span><br><span class="line"><span class="comment">// [&quot;window3&quot;, index: 0, input: &quot;window3 window5&quot;, groups: undefined]</span></span><br></pre></td></tr></table></figure>
+
+<p>(?=pattern)：正向肯定预查</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 匹配到了window3 window7 中的 window 但不匹配 window8</span></span><br><span class="line"><span class="string">&quot;window3 window7 window8&quot;</span>.match(<span class="regexp">/window(?=3|7)/g</span>);</span><br><span class="line"><span class="comment">// [&quot;window&quot;, &quot;window&quot;]</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;window3 window7 window8&quot;</span>.match(<span class="regexp">/window(?=3|7|8)/g</span>);</span><br><span class="line"><span class="comment">//  [&quot;window&quot;, &quot;window&quot;, &quot;window&quot;]</span></span><br></pre></td></tr></table></figure>
+
+<p>(?!pattern)：正向否定预查，与肯定预查正好相反</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 匹配到了window8 中的 window 但不匹配 window3 window7</span></span><br><span class="line"><span class="string">&quot;window3 window7 window8&quot;</span>.match(<span class="regexp">/window(?!3|7)/g</span>);</span><br><span class="line"><span class="comment">// [&quot;window&quot;]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 匹配到了window7 window8 中的 window 但不匹配 window3 window7</span></span><br><span class="line"><span class="string">&quot;window3 window7 window8&quot;</span>.match(<span class="regexp">/window(?!3)/g</span>);</span><br><span class="line"><span class="comment">//  [&quot;window&quot;, &quot;window&quot;]</span></span><br></pre></td></tr></table></figure>
+
+<p>(?&lt;=pattern): 反向肯定预查，与正向肯定预查，匹配方向相反</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 匹配到了window8 中的 window 但不匹配 window3 window7</span></span><br><span class="line"><span class="string">&quot;3window 7window 8window&quot;</span>.match(<span class="regexp">/(?&lt;=3|7)window/g</span>);</span><br><span class="line"><span class="comment">// [&quot;window&quot;, &quot;window&quot;]</span></span><br></pre></td></tr></table></figure>
+
+<p>(?&lt;!pattern): 反向否定预查</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 匹配到了window8 中的 window 但不匹配 window3 window7</span></span><br><span class="line"><span class="string">&quot;3window 7window 8window&quot;</span>.match(<span class="regexp">/(?&lt;!3|7)window/g</span>);</span><br><span class="line"><span class="comment">// [&quot;window&quot;]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="常用表达式"><a href="#常用表达式" class="headerlink" title="常用表达式"></a>常用表达式</h3><p>匹配数字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[0-9]*$</span><br></pre></td></tr></table></figure>
+
+<blockquote><p>content</p>
+<footer><strong>[author[</strong><cite>source]] [link] [source_link_title]</cite></footer></blockquote>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/11/27/web-components/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -386,10 +676,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-11-24 14:15:13 / 修改时间：14:56:10" itemprop="dateCreated datePublished" datetime="2020-11-24T14:15:13+08:00">2020-11-24</time>
+              <time title="创建时间：2020-11-24 14:15:13" itemprop="dateCreated datePublished" datetime="2020-11-24T14:15:13+08:00">2020-11-24</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-07 08:57:26" itemprop="dateModified" datetime="2022-04-07T08:57:26+08:00">2022-04-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -412,25 +708,57 @@
 
       
           <h3 id="driver-js"><a href="#driver-js" class="headerlink" title="driver.js"></a>driver.js</h3><p>轻量级页面显示库，局部高亮，页面引导</p>
-<img src="/blog/2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/02.png" class>
-<img src="/blog/2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/03.png" class>
+<img src="/blog/.io//2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/02.png" class>
+<img src="/blog/.io//2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/03.png" class>
 
 <h3 id="Luckysheet"><a href="#Luckysheet" class="headerlink" title="Luckysheet"></a>Luckysheet</h3><p>开源在线表格工具。<a target="_blank" rel="noopener" href="https://github.com/961109899/Luckysheet">访问</a></p>
-<img src="/blog/2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/luckysheet.png" class>
+<img src="/blog/.io//2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/luckysheet.png" class>
 
 <h3 id="鲁班-H5"><a href="#鲁班-H5" class="headerlink" title="鲁班 H5"></a>鲁班 H5</h3><p>开源移动页面生成器。<a target="_blank" rel="noopener" href="http://docs.luban-h5.surge.sh/">访问</a></p>
-<img src="/blog/2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/luban.png" class>
+<img src="/blog/.io//2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/luban.png" class>
 
 <h3 id="鲁班-H5-1"><a href="#鲁班-H5-1" class="headerlink" title="鲁班 H5"></a>鲁班 H5</h3><p>图形验证码</p>
-<img src="/blog/2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/ajcaptcha.png" class>
-<img src="/blog/2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/ajcaptcha2.png" class>
+<img src="/blog/.io//2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/ajcaptcha.png" class>
+<img src="/blog/.io//2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/ajcaptcha2.png" class>
 
 <h3 id="filepond-文件上传"><a href="#filepond-文件上传" class="headerlink" title="filepond 文件上传"></a>filepond 文件上传</h3><p>非常优秀的文件上传库，可以上传文件，目录，blobs, URLS</p>
-<img src="/blog/2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/filepond.png" class>
+<img src="/blog/.io//2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/filepond.png" class>
 
 <h3 id="cors"><a href="#cors" class="headerlink" title="cors"></a>cors</h3><p>express 中间件，多种方式实现 cors（跨域资源共享）。手动配置，动态域名等</p>
 <p>简单用法：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">&quot;express&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> cors = <span class="built_in">require</span>(<span class="string">&quot;cors&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"></span><br><span class="line">app.use(cors());</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&quot;/products/:id&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  res.json(&#123; <span class="attr">msg</span>: <span class="string">&quot;This is CORS-enabled for all origins!&quot;</span> &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">80</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;CORS-enabled web server listening on port 80&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="Nucleoid"><a href="#Nucleoid" class="headerlink" title="Nucleoid"></a>Nucleoid</h3><p>Nodejs框架，可以不用额外的数据库，保存变量状态</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> nucleoid = <span class="built_in">require</span>(<span class="string">&quot;nucleoidjs&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> app = nucleoid();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;<span class="function"><span class="title">constructor</span>(<span class="params">name</span>)</span>&#123;<span class="built_in">this</span>.name = name&#125;&#125;</span><br><span class="line">nucleoid.register(User);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 👇 This is it!</span></span><br><span class="line">app.post(<span class="string">&quot;/users&quot;</span>, <span class="function">() =&gt;</span> <span class="keyword">new</span> User(<span class="string">&quot;Daphne&quot;</span>));</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
+
+<p>PostCSS CSS Variables</p>
+<p>css 变量转换成静态css表示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var postcss &#x3D; require(&quot;postcss&quot;);</span><br><span class="line">var cssvariables &#x3D; require(&quot;postcss-css-variables&quot;);</span><br><span class="line"></span><br><span class="line">var fs &#x3D; require(&quot;fs&quot;);</span><br><span class="line"></span><br><span class="line">var mycss &#x3D; fs.readFileSync(&quot;sdk.css&quot;, &quot;utf8&quot;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Process your CSS with postcss-css-variables</span><br><span class="line">var output &#x3D; postcss([cssvariables(&#x2F;*options*&#x2F;)]).process(mycss).css;</span><br><span class="line"></span><br><span class="line">console.log(output);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>monaco-editor</p>
+<p>在线代码编辑器，vscode就是基于monaco开发</p>
+<p>Word 在线预览</p>
+<ol>
+<li>mammoth</li>
+<li>docx-preview</li>
+</ol>
+<p>PPT 预览</p>
+<ol>
+<li>pptxjs</li>
+</ol>
+<p>Excel</p>
+<ol>
+<li>sheetjs</li>
+</ol>
+<p>pdf</p>
+<ol>
+<li>pdfjs</li>
+</ol>
+<p>文档生成</p>
+<h2 id="Docusaurus"><a href="#Docusaurus" class="headerlink" title="Docusaurus"></a>Docusaurus</h2><blockquote>
+<p>Docusaurus 将助您在极短时间内搭建优美的文档网站。</p>
+</blockquote>
+<p>按照文件存放目录自动生成在线文档，让您专注于内容创作</p>
 
       
     </div>
@@ -984,89 +1312,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2020/11/16/%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/blog/images/avatar.jpg">
-      <meta itemprop="name" content="Mr Lee">
-      <meta itemprop="description" content="永不言弃">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Mr Lee">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/blog/2020/11/16/%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">高阶函数</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-11-16 10:06:21" itemprop="dateCreated datePublished" datetime="2020-11-16T10:06:21+08:00">2020-11-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-04 09:30:58" itemprop="dateModified" datetime="2021-01-04T09:30:58+08:00">2021-01-04</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="高阶函数（higher-order-function）"><a href="#高阶函数（higher-order-function）" class="headerlink" title="高阶函数（higher order function）"></a>高阶函数（higher order function）</h3><p>高阶函数的特点： 入参是函数， 我们常用的高阶函数有 map、filter、reduce、sort</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>].map(<span class="function">(<span class="params">a</span>) =&gt;</span> a * <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">subFunc1</span>(<span class="params">props</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;subFunc1, props.name);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">function subFunc2(props) &#123;</span></span><br><span class="line"><span class="string">  console.log(&quot;</span>subFunc2:<span class="string">&quot;, props.name);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">function wrapWithUser(func) &#123;</span></span><br><span class="line"><span class="string">  let person = &#123; name: &quot;</span>currrent user<span class="string">&quot; &#125;;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  return () =&gt; func(person);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">// 传参</span></span><br><span class="line"><span class="string">function wrapWithUserParams(params) &#123;</span></span><br><span class="line"><span class="string">  return (func) =&gt; &#123;</span></span><br><span class="line"><span class="string">    func(params);</span></span><br><span class="line"><span class="string">  &#125;;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">// 无参</span></span><br><span class="line"><span class="string">wrapWithUser(subFunc1)();</span></span><br><span class="line"><span class="string">wrapWithUser(subFunc2)();</span></span><br><span class="line"><span class="string">// 带参</span></span><br><span class="line"><span class="string">wrapWithUserParams(&#123; name: &quot;</span>func1<span class="string">&quot; &#125;)(subFunc1);</span></span><br><span class="line"><span class="string">wrapWithUserParams(&#123; name: &quot;</span>func2<span class="string">&quot; &#125;)(subFunc2);</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="React-中的高阶组件"><a href="#React-中的高阶组件" class="headerlink" title="React 中的高阶组件"></a>React 中的高阶组件</h3><p>我们最常见的应该是 React 中高阶组件，其实就是高阶函数的应用。</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> State &#123;</span><br><span class="line">  name: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> wrapWithUserName = <span class="function">(<span class="params">WrappedComponent: <span class="built_in">any</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">Component</span>&lt;<span class="title">any</span>, <span class="title">any</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> state: State = &#123;</span><br><span class="line">      name: <span class="string">&quot;&quot;</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">componentWillMount</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> name = <span class="built_in">localStorage</span>.getItem(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">      <span class="built_in">this</span>.setState(&#123; name &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">WrappedComponent</span> <span class="attr">name</span>=<span class="string">&#123;this.state.name&#125;</span> &#123;<span class="attr">...this.props</span>&#125; /&gt;</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>React 组件劫持</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">hijackHoc</span>&lt;<span class="title">T</span> <span class="title">extends</span> </span>&#123; <span class="keyword">new</span> (...args: <span class="built_in">any</span>[]): <span class="built_in">any</span> &#125;&gt;(</span><br><span class="line">  component: T</span><br><span class="line">) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">component</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">handleClick</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">      <span class="built_in">super</span>.handleClick();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> paranet = <span class="built_in">super</span>.render();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> React.cloneElement(parent, &#123;</span><br><span class="line">        onClick: <span class="function">() =&gt;</span> <span class="built_in">this</span>.handleClick(),</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>React 高阶组件使用方法</p>
-<ol>
-<li>用装饰器</li>
-</ol>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@hijackHoc</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HijackComponent</span> <span class="keyword">extends</span> <span class="title">Component</span>&lt;<span class="title">Props</span>, <span class="title">State</span>&gt; </span>&#123;</span><br><span class="line">  state: State = &#123;</span><br><span class="line">    width: <span class="number">70</span>,</span><br><span class="line">    height: <span class="number">90</span>,</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  handleClick = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.setState(&#123;</span><br><span class="line">      weight: <span class="built_in">this</span>.state.weight! + <span class="number">1</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onClick</span>=<span class="string">&#123;this.handleClick&#125;</span>&gt;</span>hello world<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>传参方式，参考高阶函数用法</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1138,7 +1383,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/blog/archives/">
         
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

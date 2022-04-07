@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yaqilee.github.io","root":"/blog/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="js 数据类型有 6 种简单数据类型：Undefined、Null、Boolean、Number、String 和 Symbol有 1 种复杂数据类型叫 Object（对象） Undefined 类型   Undefined 类型只有一个值，就是特殊值 undefined。当使用 var 或 let 声明了变量但没有初始化时，就相当于给变量赋予了 undefined 值 typeof 操作符 ty">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端面试知识点考察">
+<meta property="og:url" content="https://yaqilee.github.io/blog/2022/03/24/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/index.html">
+<meta property="og:site_name" content="Mr Lee">
+<meta property="og:description" content="js 数据类型有 6 种简单数据类型：Undefined、Null、Boolean、Number、String 和 Symbol有 1 种复杂数据类型叫 Object（对象） Undefined 类型   Undefined 类型只有一个值，就是特殊值 undefined。当使用 var 或 let 声明了变量但没有初始化时，就相当于给变量赋予了 undefined 值 typeof 操作符 ty">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-24T00:46:49.000Z">
+<meta property="article:modified_time" content="2022-03-28T00:30:06.115Z">
+<meta property="article:author" content="Mr Lee">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yaqilee.github.io/blog/2022/03/24/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>前端面试知识点考察 | Mr Lee</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mr Lee</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yaqilee.github.io/blog/2022/03/24/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.jpg">
+      <meta itemprop="name" content="Mr Lee">
+      <meta itemprop="description" content="永不言弃">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr Lee">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端面试知识点考察
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-24 08:46:49" itemprop="dateCreated datePublished" datetime="2022-03-24T08:46:49+08:00">2022-03-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-28 08:30:06" itemprop="dateModified" datetime="2022-03-28T08:30:06+08:00">2022-03-28</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="js"><a href="#js" class="headerlink" title="js"></a>js</h1><ul>
+<li><p>数据类型<br>有 6 种简单数据类型：Undefined、Null、Boolean、Number、String 和 Symbol<br>有 1 种复杂数据类型叫 Object（对象）</p>
+<p><strong>Undefined 类型</strong></p>
+<p>  Undefined 类型只有一个值，就是特殊值 undefined。当使用 var 或 let 声明了变量但没有初始<br>化时，就相当于给变量赋予了 undefined 值</p>
+<p><strong>typeof 操作符</strong></p>
+<p>typeof用于判定数据类型</p>
+<ul>
+<li><p>“undefined”表示值未定义；</p>
+</li>
+<li><p>“boolean”表示值为布尔值；</p>
+</li>
+<li><p>“string”表示值为字符串；</p>
+</li>
+<li><p>“number”表示值为数值；</p>
+</li>
+<li><p>“object”表示值为对象（而不是函数）或 null；</p>
+</li>
+<li><p>“function”表示值为函数；</p>
+</li>
+<li><p>“symbol”表示值为符号。</p>
+<blockquote>
+<p>注意： typeof null == ‘object’，因为 null 值表示一个空对象指针</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>instanceof对象类型判断</strong></p>
+<p>instanceof 操作符用于判断对象是什么类型的对象。</p>
+<ul>
+<li>语句</li>
+</ul>
+<p><strong>for-in</strong></p>
+<p>  for-in 语句是一种严格的迭代语句，用于枚举对象中的非符号键属性</p>
+<p><strong>for-of</strong></p>
+<p>  for-of 语句是一种严格的迭代语句，用于遍历可迭代对象的元素</p>
+<p><strong>break 和 continue</strong></p>
+<p>break 语句用于立即退<br>出循环，强制执行循环后的下一条语句。而 continue 语句也用于立即退出循环，但会再次从循环顶部<br>开始执行</p>
+<p><strong>let const var</strong></p>
+<p>通过 var 定义的全局变量和函数都会成为 window 对象的属性和方法。使用 let 和 const 的顶级声明不会定义在全局上下文中</p>
+</li>
+<li><p>垃圾回收</p>
+</li>
+<li><p>JavaScript 是使用垃圾回收的语言，也就是说执行环境负责在代码执行时管理内存</p>
+<p>垃圾回收方法</p>
+<ul>
+<li>标记清理</li>
+<li>引用计数</li>
+</ul>
+</li>
+<li><p>引用类型</p>
+<p><strong>Array</strong></p>
+<ul>
+<li><p>创建数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> colors = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"><span class="keyword">let</span> colors = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">20</span>);</span><br><span class="line"><span class="keyword">let</span> colors = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="string">&quot;red&quot;</span>, <span class="string">&quot;blue&quot;</span>, <span class="string">&quot;green&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> colors = <span class="built_in">Array</span>(<span class="number">3</span>); <span class="comment">// 创建一个包含 3 个元素的数组</span></span><br><span class="line"><span class="keyword">let</span> names = <span class="built_in">Array</span>(<span class="string">&quot;Greg&quot;</span>); <span class="comment">// 创建一个只包含一个元素，即字符串&quot;Greg&quot;的数组</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// from()用于将类数组结构转换为数组实例，</span></span><br><span class="line"><span class="comment">// 而 of()用于将一组参数转换为数组实例。</span></span><br><span class="line"><span class="built_in">Array</span>.from(<span class="string">&quot;Matt&quot;</span>)</span><br><span class="line"><span class="built_in">Array</span>.of(<span class="string">&quot;1&quot;</span>,<span class="string">&quot;2&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>数组空位</p>
+</li>
+<li><p>ES6 新增方法普遍将这些空位当成存在的元素，只不过值为 undefined</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const options &#x3D; [,,,,,]; &#x2F;&#x2F; 创建包含 5 个元素的数组</span><br></pre></td></tr></table></figure></li>
+<li><p>检测数组</p>
+<p>判断一个对象是不是数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 两个全局上下文时无法判断是否为同一个数组实例</span></span><br><span class="line"><span class="keyword">if</span> (value <span class="keyword">instanceof</span> <span class="built_in">Array</span>)&#123;</span><br><span class="line">  <span class="comment">// 操作数组</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(value))&#123;</span><br><span class="line">  <span class="comment">// 操作数组</span></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure></li>
+<li><p>迭代器方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// keys()</span></span><br><span class="line"><span class="comment">// values()</span></span><br><span class="line"><span class="comment">// entries()</span></span><br><span class="line"></span><br><span class="line">使用 ES6 的解构可以非常容易地在循环中拆分键/值对：</span><br><span class="line"><span class="keyword">const</span> a = [<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>, <span class="string">&quot;baz&quot;</span>, <span class="string">&quot;qux&quot;</span>]; </span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> [idx, element] <span class="keyword">of</span> a.entries()) &#123; </span><br><span class="line">alert(idx); </span><br><span class="line">alert(element); </span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">// 0 </span></span><br><span class="line"><span class="comment">// foo </span></span><br><span class="line"><span class="comment">// 1 </span></span><br><span class="line"><span class="comment">// bar </span></span><br><span class="line"><span class="comment">// 2 </span></span><br><span class="line"><span class="comment">// baz </span></span><br><span class="line"><span class="comment">// 3 </span></span><br><span class="line"><span class="comment">// qux </span></span><br></pre></td></tr></table></figure>
+
+<p>ES6 新增了两个方法：批量复制方法 copyWithin()，以及填充数组方法 fill()。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// copyWithin()会按照指定范围浅复制数组中的部分内容，然后将它们插入到指</span></span><br><span class="line"><span class="comment">// 定索引开始的位置。开始索引和结束索引则与 fill()使用同样的计算方法：</span></span><br><span class="line"><span class="keyword">let</span> ints, </span><br><span class="line">reset = <span class="function">() =&gt;</span> ints = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]; </span><br><span class="line">reset(); </span><br><span class="line"><span class="comment">// 从 ints 中复制索引 0 开始的内容，插入到索引 5 开始的位置</span></span><br><span class="line"><span class="comment">// 在源索引或目标索引到达数组边界时停止</span></span><br><span class="line">ints.copyWithin(<span class="number">5</span>); </span><br><span class="line"><span class="built_in">console</span>.log(ints); <span class="comment">// [0, 1, 2, 3, 4, 0, 1, 2, 3, 4] </span></span><br><span class="line">reset(); </span><br><span class="line"><span class="comment">// 从 ints 中复制索引 5 开始的内容，插入到索引 0 开始的位置</span></span><br><span class="line">ints.copyWithin(<span class="number">0</span>, <span class="number">5</span>); </span><br><span class="line"><span class="built_in">console</span>.log(ints); <span class="comment">// [5, 6, 7, 8, 9, 5, 6, 7, 8, 9] </span></span><br></pre></td></tr></table></figure>
+
+<p>未完待续。。。</p>
+</li>
+</ul>
+<p><strong>Date</strong></p>
+<p>  Date 类型使用自 UTC（Coordinated Universal Time，国际协调时间）1970 年 1 月 1 日午夜（零时）开始经过<br>的毫秒数来保存日期。在使用这种数据存储格式的条件下，Date 类型保存的日期能够精确到 1970 年 1<br>月 1 日之前或之后的 285 616 年</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> now = <span class="keyword">new</span> <span class="built_in">Date</span>(); </span><br><span class="line"><span class="built_in">Date</span>.now() <span class="comment">// 返回表示调用这个方法时的日期和时间的毫秒数</span></span><br><span class="line"></span><br><span class="line">getTime() 返回表示日期的毫秒数；与valueOf()方法返回的值相同</span><br><span class="line">setTime(毫秒) 以毫秒数设置日期，会改变整个日期</span><br><span class="line">getMonth() 返回日期中的月份，其中<span class="number">0</span>表示一月，<span class="number">11</span>表示十二月</span><br><span class="line">getDate() 返回日期月份中的天数（<span class="number">1</span>到<span class="number">31</span>）</span><br><span class="line">getDay() 返回日期中星期的星期几（其中<span class="number">0</span>表示星期日，<span class="number">6</span>表示星期六）</span><br><span class="line">getMinutes() 返回日期中的分钟数（<span class="number">0</span>到<span class="number">59</span>）</span><br><span class="line">getFullYear() 取得<span class="number">4</span>位数的年份（如<span class="number">2007</span>而非仅<span class="number">0</span>7</span><br><span class="line">setFullYear(年) 设置日期的年份。传入的年份值必须是<span class="number">4</span>位数字（如<span class="number">2007</span>而非仅<span class="number">0</span>7）</span><br></pre></td></tr></table></figure>
+
+<p><strong>Math对象</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> max = <span class="built_in">Math</span>.max(<span class="number">3</span>, <span class="number">54</span>, <span class="number">32</span>, <span class="number">16</span>); </span><br><span class="line">alert(max); <span class="comment">//54 </span></span><br><span class="line"><span class="keyword">var</span> min = <span class="built_in">Math</span>.min(<span class="number">3</span>, <span class="number">54</span>, <span class="number">32</span>, <span class="number">16</span>); </span><br><span class="line">alert(min); <span class="comment">//3</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Math.ceil()执行向上舍入，即它总是将数值向上舍入为最接近的整数；</span><br><span class="line">Math.floor()执行向下舍入，即它总是将数值向下舍入为最接近的整数；</span><br><span class="line">Math.round()执行标准舍入，即它总是将数值四舍五入为最接近的整数</span><br><span class="line">Math.random()方法返回大于等于 0 小于 1 的一个随机数</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li>继承</li>
+</ul>
+<ul>
+<li><p>事件<br>页面中接收事件的顺序：事件流包括三个阶段：事件捕获阶段、处于目标阶段和事件冒泡阶段。</p>
+<ul>
+<li><p>事件冒泡</p>
+</li>
+<li><p>事件捕获</p>
+<p>DOM2 事件处理程序</p>
+<p>  DOM2 Events 为事件处理程序的赋值和移除定义了两个方法：addEventListener()和 remove-<br>EventListener()。这两个方法暴露在所有 DOM 节点上，它们接收 3 个参数：事件名、事件处理函<br>数和一个布尔值，true 表示在捕获阶段调用事件处理程序，false（默认值）表示在冒泡阶段调用事<br>件处理程序。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">&quot;myBtn&quot;</span>);</span><br><span class="line">btn.addEventListener(<span class="string">&quot;click&quot;</span>, <span class="function">() =&gt;</span> &#123; </span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">this</span>.id); </span><br><span class="line">&#125;, <span class="literal">false</span>); </span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>客户端存储</p>
+<p><strong>cookie</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">HTTP cookie 通常也叫作 cookie，最初用于在客户端存储会话信息。这个规范要求服务器在响应</span><br><span class="line">HTTP 请求时，通过发送 Set-Cookie HTTP 头部包含会话信息。例如，下面是包含这个头部的一个 HTTP</span><br><span class="line">响应：</span><br><span class="line">HTTP&#x2F;1.1 200 OK </span><br><span class="line">Content-type: text&#x2F;html </span><br><span class="line">Set-Cookie: name&#x3D;value </span><br><span class="line">Other-header: other-header-value </span><br><span class="line">这个 HTTP 响应会设置一个名为&quot;name&quot;，值为&quot;value&quot;的 cookie。名和值在发送时都会经过 URL</span><br><span class="line">编码。浏览器会存储这些会话信息，并在之后的每个请求中都会通过 HTTP 头部 cookie 再将它们发回服</span><br><span class="line">务器，比如：</span><br><span class="line">GET &#x2F;index.jsl HTTP&#x2F;1.1 </span><br><span class="line">Cookie: name&#x3D;value </span><br><span class="line">Other-header: other-header-value </span><br><span class="line">这些发送回服务器的额外信息可用于唯一标识发送请求的客户端。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>cookie限制</p>
+<p> 不超过 300 个 cookie；<br> 每个 cookie 不超过 4096 字节；<br> 每个域不超过 20 个 cookie；<br> 每个域不超过 81 920 字节</p>
+<p><strong>web storage</strong></p>
+<blockquote>
+<p>注意 Storage 类型只能存储字符串。非字符串数据在存储之前会自动转换为字符串。<br>注意，这种转换不能在获取数据时撤销。</p>
+</blockquote>
+<p>sessionStorage</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sessionStorage 对象只存储会话数据，这意味着数据只会存储到浏览器关闭。这跟浏览器关闭时</span><br><span class="line">会消失的会话 cookie 类似.存储在 sessionStorage 中的数据不受页面刷新影响，可以在浏览器崩溃</span><br><span class="line">并重启后恢复。（取决于浏览器，Firefox 和 WebKit 支持，IE 不支持。）</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>localStorage</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  localStorage 对象取代了 globalStorage，作为在客户端持久存储</span><br><span class="line">数据的机制。要访问同一个 localStorage 对象，页面必须来自同一个域（子域不可以）、在相同的端</span><br><span class="line">口上使用相同的协议。</span><br></pre></td></tr></table></figure>
+
+<p>存储事件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 每当 Storage 对象发生变化时，都会在文档上触发 storage 事件</span></span><br><span class="line">  <span class="built_in">window</span>.addEventListener(<span class="string">&quot;storage&quot;</span>,</span><br><span class="line">(event) =&gt; alert(<span class="string">&#x27;Storage changed for $&#123;event.domain&#125;&#x27;</span>)); </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>原型链<br>ECMAScript 中描述了原型链的概念，并将原型链作为实现继承的主要方法。其基本思想是利用原型让一个引用类型继承另一个引用类型的属性和方法。<br>JavaScript是基于原型的我们创建的每个函数都有一个 prototype(原型) 属性，这个属性是一个指针，指向一个对象，而这个对象的用途是包含可以由特定类型的所有实例共享的属性和方法。</li>
+</ul>
+</li>
+</ul>
+<h1 id="css"><a href="#css" class="headerlink" title="css"></a>css</h1><h3 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h3><ul>
+<li>类选择器</li>
+<li>ID 选择器</li>
+<li>属性选择器</li>
+<li>伪类选择器： 一般指前面有个英文冒号（:）的选择器，如:first-child 或:last-child 等。</li>
+<li>伪元素选择器：就是有连续两个冒号的选择器</li>
+<li>后代选择器，选择所有合乎规则的后代元素</li>
+<li>相邻后代选择器 &gt; </li>
+<li>兄弟选择器 ~</li>
+<li>相邻兄弟选择器 + <h3 id="css属性"><a href="#css属性" class="headerlink" title="css属性"></a>css属性</h3></li>
+</ul>
+<p>如何给一个元素添加阴影</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.shadow</span> &#123;</span><br><span class="line">    <span class="attribute">box-shadow</span>: <span class="number">5px</span> <span class="number">5px</span> <span class="number">10px</span> <span class="number">2px</span> <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,.<span class="number">8</span>);</span><br><span class="line">&#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<p>设置元素的外边框圆角</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">border-radius</span></span><br></pre></td></tr></table></figure>
+
+<p>匹配带有 herf 属性的元素</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-pseudo">:any-link</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">  <span class="attribute">font-weight</span>: <span class="number">900</span>;</span><br><span class="line">  <span class="attribute">text-decoration</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>平移、缩放元素</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">transform</span>: <span class="selector-tag">translate</span>(120<span class="selector-tag">px</span>, 50%);</span><br><span class="line"><span class="selector-tag">transform</span>: <span class="selector-tag">scale</span>(2, 0<span class="selector-class">.5</span>);</span><br></pre></td></tr></table></figure>
+
+<p>外边距重叠</p>
+<p>  块的上外边距(margin-top)和下外边距(margin-bottom)有时合并(折叠)为单个边距，其大小为单个边距的最大值(或如果它们相等，则仅为其中一个)，这种行为称为边距折叠。</p>
+<ol>
+<li>同一层相邻元素之间</li>
+<li>没有内容将父元素和后代元素分开</li>
+<li>空的块级元素<br>当一个块元素上边界margin-top 直接贴到元素下边界margin-bottom时也会发生边界折叠。这种情况会发生在一个块元素完全没有设定边框border、内边距padding、高度height、最小高度min-height 、最大高度max-height 、内容设定为inline或是加上clear-fix的时候。</li>
+</ol>
+<h1 id="html"><a href="#html" class="headerlink" title="html"></a>html</h1><h1 id="前端框架"><a href="#前端框架" class="headerlink" title="前端框架"></a>前端框架</h1><p>  mvc<br>  mvp</p>
+<pre><code>Controller/Presenter负责逻辑的处理，Model 提供数据，View 负责显示
+
+在 MVP 中，Presenter 完全把 View 和 Model 进行了分离，主要的程序逻辑在 Presenter 里实</code></pre>
+<p>  现。而且，Presenter 与具体的 View 是没有直接关联的，而是通过定义好的接口进行交互，从而<br>  使得在变更 View 的时候可以保持 Presenter 不变</p>
+<p>  mvvm</p>
+<pre><code>MVVM 只是把 MVC 的 Controller 和 MVP 的 Presenter 改成了</code></pre>
+<p>  ViewModel。View 的变化会自动更新到 ViewModel，ViewModel 的变化也会自动同步到 View<br>  上显示</p>
+<h3 id="Vue"><a href="#Vue" class="headerlink" title="Vue"></a>Vue</h3><h1 id="前端工程化工具"><a href="#前端工程化工具" class="headerlink" title="前端工程化工具"></a>前端工程化工具</h1>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2021/11/11/python/" rel="prev" title="python">
+      <i class="fa fa-chevron-left"></i> python
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#js"><span class="nav-number">1.</span> <span class="nav-text">js</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#css"><span class="nav-number">2.</span> <span class="nav-text">css</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">2.0.1.</span> <span class="nav-text">选择器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#css%E5%B1%9E%E6%80%A7"><span class="nav-number">2.0.2.</span> <span class="nav-text">css属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#html"><span class="nav-number">3.</span> <span class="nav-text">html</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6"><span class="nav-number">4.</span> <span class="nav-text">前端框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue"><span class="nav-number">4.0.1.</span> <span class="nav-text">Vue</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%B7%A5%E5%85%B7"><span class="nav-number">5.</span> <span class="nav-text">前端工程化工具</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mr Lee"
+      src="/blog/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Mr Lee</p>
+  <div class="site-description" itemprop="description">永不言弃</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blog/archives/">
+        
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/blog/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/blog/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/YaqiLee" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;YaqiLee" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:lyqhn2012@outlook.com" title="E-Mail → mailto:lyqhn2012@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr Lee</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/blog/lib/anime.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/blog/js/utils.js"></script>
+
+<script src="/blog/js/motion.js"></script>
+
+
+<script src="/blog/js/schemes/pisces.js"></script>
+
+
+<script src="/blog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/blog/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '52226348a2270c0da9f5',
+      clientSecret: '07c3ea47887ef7c1ed81658ee5f6c86a0b252d04',
+      repo        : 'comments',
+      owner       : 'YaqiLee',
+      admin       : [''],
+      id          : 'c3c5cee9bdba7560f904812656fb38ce',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
